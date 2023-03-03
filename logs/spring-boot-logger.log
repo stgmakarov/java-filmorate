@@ -281,3 +281,15 @@ ru.yandex.practicum.filmorate.controller.FilmController$FilmIdNotExists: null
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.base/java.lang.Thread.run(Thread.java:1589)
+2023-03-03 15:05:05,772 INFO o.h.v.i.u.Version [background-preinit] HV000001: Hibernate Validator 6.2.3.Final
+2023-03-03 15:05:05,776 INFO o.s.b.StartupInfoLogger [main] Starting FilmorateApplication using Java 19.0.1 on ST-HOME with PID 31624 (C:\Users\stasg\IdeaProjects\java-filmorate\target\classes started by stasg in C:\Users\stasg\IdeaProjects\java-filmorate)
+2023-03-03 15:05:05,776 INFO o.s.b.SpringApplication [main] No active profile set, falling back to 1 default profile: "default"
+2023-03-03 15:05:06,224 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat initialized with port(s): 8080 (http)
+2023-03-03 15:05:06,230 INFO o.a.j.l.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2023-03-03 15:05:06,230 INFO o.a.j.l.DirectJDKLog [main] Starting service [Tomcat]
+2023-03-03 15:05:06,230 INFO o.a.j.l.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/9.0.63]
+2023-03-03 15:05:06,272 INFO o.a.j.l.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2023-03-03 15:05:06,272 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 471 ms
+2023-03-03 15:05:06,439 INFO o.a.j.l.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2023-03-03 15:05:06,450 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat started on port(s): 8080 (http) with context path ''
+2023-03-03 15:05:06,457 INFO o.s.b.StartupInfoLogger [main] Started FilmorateApplication in 0.879 seconds (JVM running for 1.036)
