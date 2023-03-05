@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.filmorate.exceptions.user.*;
 import ru.yandex.practicum.filmorate.model.User;
 
 import javax.validation.Valid;
@@ -15,9 +16,10 @@ import java.util.*;
 @RequestMapping("/users")
 @Slf4j
 public class UserController {
-    Map<Integer, User> userMap = new HashMap<>();
-    Set<String> registeredEmails = new HashSet<>();
-    Set<String> registeredLogins = new HashSet<>();
+    private Map<Integer, User> userMap = new HashMap<>();
+    private final Set<String> registeredEmails = new HashSet<>();
+    private final Set<String> registeredLogins = new HashSet<>();
+    private int userLastId = 1;
     @GetMapping
     public List<User> getAllUsers(){
         return List.copyOf(userMap.values());
@@ -39,21 +41,16 @@ public class UserController {
     @PostMapping
     public User create(@Valid @RequestBody User user){
         checker(user, false);
-        int newUserId = userMap.size()+1;
-        String email = user.getEmail().toLowerCase();
-        String login = user.getLogin().toLowerCase();
-        User newUser = new User(newUserId, login);
-        newUser.setBirthday(user.getBirthday());
-        newUser.setEmail(email);
+        int newUserId = userLastId++;
+
+        user.setId(newUserId);
         if(user.getName()==null||user.getName().isEmpty()){
-            newUser.setName(user.getLogin());
-        } else {
-            newUser.setName(user.getName());
+            user.setName(user.getLogin());
         }
-        registeredEmails.add(email);
-        registeredLogins.add(login);
-        userMap.put(newUserId,newUser);
-        return newUser;
+        registeredEmails.add(user.getEmail());
+        registeredLogins.add(user.getLogin());
+        userMap.put(newUserId,user);
+        return user;
     }
 
     @PutMapping
@@ -62,17 +59,22 @@ public class UserController {
         if(!userMap.containsKey(userId))throw new UserIdNotExists(userId);
         checker(user, true);
 
-        String email = user.getEmail().toLowerCase();
-        String login = user.getLogin().toLowerCase();
-
         User oldUser = userMap.get(userId);
 
-        //if(!oldUser.getLogin().equals(login))throw new LoginIsImmutable();
+        if(!oldUser.getLogin().equals(user.getLogin())){
+            registeredLogins.remove(oldUser.getLogin());
+            registeredLogins.add(user.getLogin());
+        }
+        if(!oldUser.getEmail().equals(user.getEmail())){
+            registeredEmails.remove(oldUser.getEmail());
+            registeredEmails.add(user.getEmail());
+        }
+
         oldUser.setName(user.getName());
         oldUser.setLogin(user.getLogin());
         oldUser.setBirthday(user.getBirthday());
-        oldUser.setEmail(email);
-        registeredEmails.add(email);
+        oldUser.setEmail(user.getEmail());
+
         userMap.put(userId,oldUser);
         return oldUser;
     }
@@ -92,49 +94,5 @@ public class UserController {
         if(login.isEmpty())throw new LoginWrong(login, "логин не может быть пустым");
         if(login.contains(" "))throw new LoginWrong(login, "логин не может содержать пробелы");
         if(!user.getBirthday().isBefore(LocalDate.now())) throw new BirthDayDateWrong();
-    }
-
-    private static class UserIdNotExists extends RuntimeException {
-        public UserIdNotExists(int id){
-            log.error(String.format("Пользователь с ИД %d не найден в системе", id));
-        }
-        public UserIdNotExists(String id){
-            log.error(String.format("Пользователь с ИД %s не найден в системе", id));
-        }
-    }
-
-    private static class LoginIsImmutable extends RuntimeException {
-        public LoginIsImmutable(){
-            log.error("Логин пользователя не изменяется");
-        }
-    }
-    private static class EmailAlreadyRegistered extends RuntimeException {
-        public EmailAlreadyRegistered(String email){
-            log.error(String.format("EMail %s уже зарегистрирован", email));
-        }
-    }
-
-    private static class EmailWrong extends RuntimeException {
-        public EmailWrong(String email, String errorText){
-            log.error(String.format("EMail %s не корректен: %s", email, errorText));
-        }
-    }
-
-    private static class LoginAlreadyRegistered extends RuntimeException {
-        public LoginAlreadyRegistered(String login){
-            log.error(String.format("Логин %s уже зарегистрирован", login));
-        }
-    }
-
-    private static class LoginWrong extends RuntimeException {
-        public LoginWrong(String login, String errorText){
-            log.error(String.format("Логин \"%s\" не корректен: %s", login, errorText));
-        }
-    }
-
-    private static class BirthDayDateWrong extends RuntimeException {
-        public BirthDayDateWrong(){
-            log.error("дата рождения не может быть в будущем");
-        }
     }
 }
