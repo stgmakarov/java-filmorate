@@ -7,8 +7,7 @@ import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Stanislav Makarov
@@ -32,6 +31,37 @@ public class UserControllerTest {
 
         assertEquals(userController.getAllUsers().get(0).getLogin(), user.getLogin());
         assertEquals(userController.getUser("1").getLogin(), user.getLogin());
+    }
+
+    @Test
+    void testUserUpdateOk() {
+        User user = new User(0, "testuser");
+        user.setName("Test");
+        user.setEmail("test@test.com");
+        user.setBirthday(LocalDate.of(2000, 1, 1));
+        user = userController.create(user);
+
+        user.setName("testuser2");
+        user.setEmail("test2@test.com");
+        User user2 = userController.update(user);
+
+        assertEquals(user2.getName(), user.getName());
+        assertEquals(user2.getEmail(), user.getEmail());
+    }
+
+    @Test
+    void testUserUpdateFail() {
+        User user = new User(0, "testuser");
+        user.setName("Test");
+        user.setEmail("test@test.com");
+        user.setBirthday(LocalDate.of(2000, 1, 1));
+        userController.create(user);
+
+        user.setName("testuser2");
+        user.setEmail("test2 @test.com");
+
+        assertThrowsExactly(EmailWrong.class, () -> userController.update(user));
+
     }
 
     @Test

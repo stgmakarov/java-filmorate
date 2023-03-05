@@ -2489,3 +2489,7 @@ ru.yandex.practicum.filmorate.exceptions.film.FilmIdNotExists: null
 2023-03-05 12:17:22,260 INFO o.s.b.SpringApplication [main] No active profile set, falling back to 1 default profile: "default"
 2023-03-05 12:17:22,272 INFO o.h.v.i.u.Version [background-preinit] HV000001: Hibernate Validator 6.2.3.Final
 2023-03-05 12:17:24,055 INFO o.s.b.StartupInfoLogger [main] Started FilmorateApplicationTests in 2.33 seconds (JVM running for 3.302)
+2023-03-05 13:03:30,633 INFO o.s.b.StartupInfoLogger [main] Starting FilmorateApplicationTests using Java 11.0.16.1 on ST-HOME with PID 30836 (started by stasg in C:\Users\stasg\IdeaProjects\java-filmorate)
+2023-03-05 13:03:30,637 INFO o.s.b.SpringApplication [main] No active profile set, falling back to 1 default profile: "default"
+2023-03-05 13:03:30,667 INFO o.h.v.i.u.Version [background-preinit] HV000001: Hibernate Validator 6.2.3.Final
+2023-03-05 13:03:32,667 INFO o.s.b.StartupInfoLogger [main] Started FilmorateApplicationTests in 2.501 seconds (JVM running for 3.464)

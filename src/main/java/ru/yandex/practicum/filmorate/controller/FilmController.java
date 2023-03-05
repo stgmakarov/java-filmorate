@@ -26,7 +26,6 @@ public class FilmController {
     private int filmLastId = 1;
     @PostMapping
     public Film create(@Valid @RequestBody Film film){
-        log.debug("получен запрос Post /films");
         int lastId = filmLastId++;
         checker(film, false);
 
