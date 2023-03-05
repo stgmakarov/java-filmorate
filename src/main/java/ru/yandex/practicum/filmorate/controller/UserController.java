@@ -16,7 +16,7 @@ import java.util.*;
 @RequestMapping("/users")
 @Slf4j
 public class UserController {
-    private Map<Integer, User> userMap = new HashMap<>();
+    private final Map<Integer, User> userMap = new HashMap<>();
     private final Set<String> registeredEmails = new HashSet<>();
     private final Set<String> registeredLogins = new HashSet<>();
     private int userLastId = 1;
@@ -41,7 +41,7 @@ public class UserController {
     @PostMapping
     public User create(@Valid @RequestBody User user){
         checker(user, false);
-        int newUserId = userLastId++;
+        int newUserId = getLastId();
 
         user.setId(newUserId);
         if(user.getName()==null||user.getName().isEmpty()){
@@ -51,6 +51,10 @@ public class UserController {
         registeredLogins.add(user.getLogin());
         userMap.put(newUserId,user);
         return user;
+    }
+
+    private synchronized int getLastId(){
+        return userLastId++;
     }
 
     @PutMapping

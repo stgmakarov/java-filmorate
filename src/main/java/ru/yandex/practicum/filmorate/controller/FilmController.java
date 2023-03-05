@@ -26,12 +26,18 @@ public class FilmController {
     private int filmLastId = 1;
     @PostMapping
     public Film create(@Valid @RequestBody Film film){
-        int lastId = filmLastId++;
+        int lastId = getLastId();
         checker(film, false);
 
         film.setId(lastId);
         filmMap.put(lastId, film);
         return film;
+    }
+
+    /**Увеличение ID на тот случай, если будет вызвано одновременно двумя клинтами
+     */
+    private synchronized int getLastId(){
+        return filmLastId++;
     }
 
     @GetMapping
