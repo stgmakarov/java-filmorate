@@ -8,8 +8,8 @@ import org.springframework.web.server.ResponseStatusException;
  * @author Stanislav Makarov
  */
 @Slf4j
-public class FilmIdNotExists extends ResponseStatusException {
-    public FilmIdNotExists(int id){
-        super(HttpStatus.NOT_FOUND, String.format("Фильма с ID %d не существует", id));
+public class EmptyFilmNameException extends ResponseStatusException {
+    public EmptyFilmNameException(){
+        super(HttpStatus.BAD_REQUEST, "Имя фильма не может быть пустым");
     }
 }
