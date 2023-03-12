@@ -8,8 +8,8 @@ import org.springframework.web.server.ResponseStatusException;
  * @author Stanislav Makarov
  */
 @Slf4j
-public class BirthDayDateWrong extends ResponseStatusException {
-    public BirthDayDateWrong(){
-        super(HttpStatus.BAD_REQUEST,"дата рождения не может быть в будущем");
+public class FriendAddError extends ResponseStatusException {
+    public FriendAddError(String s){
+        super(HttpStatus.BAD_REQUEST,String.format("Ошибка добавления в друзья: %s", s));
     }
 }
