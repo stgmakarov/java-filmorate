@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.storage;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exceptions.user.*;
 import ru.yandex.practicum.filmorate.model.User;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
  * @author Stanislav Makarov
  */
 @Component
+@Slf4j
 public class InMemoryUserStorage implements UserStorage {
     private final Map<Integer, User> userMap = new HashMap<>();
     private final Set<String> registeredEmails = new HashSet<>();
@@ -59,6 +61,7 @@ public class InMemoryUserStorage implements UserStorage {
         oldUser.setLogin(user.getLogin());
         oldUser.setBirthday(user.getBirthday());
         oldUser.setEmail(user.getEmail());
+        oldUser.setFriends(user.getFriends());
 
         userMap.put(userId,oldUser);
         return oldUser;
@@ -98,5 +101,29 @@ public class InMemoryUserStorage implements UserStorage {
     public User getUserById(int userId) {
         if(!userMap.containsKey(userId))throw new UserIdNotExists(userId);
         return userMap.get(userId);
+    }
+    @Override
+    public boolean addFriend(int userId, int friendId) {
+        User user = getUserById(userId);
+        if(user.getFriends().contains(friendId))
+        {
+            log.info("Уже в друзьях");
+            return false;
+        }
+        user.getFriends().add(friendId);
+        update(user);
+        return true;
+    }
+    @Override
+    public boolean removeFriend(int userId, int friendId) {
+        User user = getUserById(userId);
+        if(!user.getFriends().contains(friendId))
+        {
+            log.info("Не был в друзьях");
+            return false;
+        }
+        user.getFriends().remove(friendId);
+        update(user);
+        return true;
     }
 }

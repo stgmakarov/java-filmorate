@@ -5,6 +5,8 @@ import lombok.NonNull;
 
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Stanislav Makarov
@@ -19,4 +21,5 @@ public class Film {
     private LocalDate releaseDate;
     @PositiveOrZero
     private int duration;
+    private Set<Integer> likedUsers = new HashSet<>();
 }

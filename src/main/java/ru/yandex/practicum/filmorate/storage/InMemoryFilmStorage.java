@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.storage;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exceptions.film.*;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
  * @author Stanislav Makarov
  */
 @Component
+@Slf4j
 public class InMemoryFilmStorage implements FilmStorage {
     private int filmLastId = 1;
     private final Map<Integer, Film> filmMap = new HashMap<>();
@@ -43,6 +45,7 @@ public class InMemoryFilmStorage implements FilmStorage {
         oldFilm.setDuration(film.getDuration());
         oldFilm.setDescription(film.getDescription());
         oldFilm.setReleaseDate(film.getReleaseDate());
+        oldFilm.setLikedUsers(film.getLikedUsers());
         filmMap.put(filmId,oldFilm);
         return oldFilm;
     }
@@ -74,5 +77,30 @@ public class InMemoryFilmStorage implements FilmStorage {
         if(film.getDescription().length()>MAX_DESC_LENGTH)throw new FilmDescriptionTooMachLength(MAX_DESC_LENGTH);
         if(film.getReleaseDate().isBefore(FIRST_FILM_DATE))throw new FilmDateIsIncorrect(FIRST_FILM_DATE.format(formatter));
         if(film.getDuration()<=0)throw new FilmDurationIsIncorrect();
+    }
+
+    @Override
+    public boolean like(int filmId, int userId){
+        Film film = getFilmById(filmId);
+        if(film.getLikedUsers().contains(userId))
+        {
+            log.info("Нельзя лайкать дважды");
+            return false;
+        }
+        film.getLikedUsers().add(userId);
+        update(film);
+        return true;
+    }
+
+    @Override
+    public boolean dislike(int filmId, int userId){
+        Film film = getFilmById(filmId);
+        if(!film.getLikedUsers().contains(userId)){
+            log.info("Убрать лайк можно только у понравившихся фильмов");
+            return false;
+        }
+        film.getLikedUsers().remove(userId);
+        update(film);
+        return true;
     }
 }

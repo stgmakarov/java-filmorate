@@ -19,5 +19,6 @@ public interface FilmStorage {
     Film getFilmById(int filmId);
     void checker(Film film, boolean updateFlag);
     List<Film> getListOfFilms(List<Integer> films);
-
+    boolean like(int filmId, int userId);
+    boolean dislike(int filmId, int userId);
 }

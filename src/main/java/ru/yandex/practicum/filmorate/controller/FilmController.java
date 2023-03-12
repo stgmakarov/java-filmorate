@@ -12,7 +12,6 @@ import ru.yandex.practicum.filmorate.storage.interfaces.UserStorage;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Stanislav Makarov
@@ -21,7 +20,6 @@ import java.util.Optional;
 @RequestMapping(value = "/films")
 @Slf4j
 public class FilmController {
-    private final int TOP_FILMS_COUNT = 10;
     private final FilmStorage filmStorage;
     private final FilmService filmService;
     private final UserStorage userStorage;
@@ -36,7 +34,6 @@ public class FilmController {
     @PostMapping
     public Film create(@Valid @RequestBody Film film) {
         film = filmStorage.create(film);
-        filmService.filmInit(film.getId());
         return film;
     }
 
@@ -70,8 +67,8 @@ public class FilmController {
     }
 
     @GetMapping("/popular")
-    public List<Film> getTopFilms(@RequestParam Optional<Integer> count) {
-        List<Integer> topFilmsId = filmService.getTop(count.orElse(TOP_FILMS_COUNT));
+    public List<Film> getTopFilms(@RequestParam(defaultValue = "10") int count) {
+        List<Integer> topFilmsId = filmService.getTop(count);
         return filmStorage.getListOfFilms(topFilmsId);
     }
 }

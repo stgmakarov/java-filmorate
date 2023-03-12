@@ -1,9 +1,11 @@
 package ru.yandex.practicum.filmorate.services;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exceptions.user.FriendAddError;
 import ru.yandex.practicum.filmorate.exceptions.user.FriendRemoveError;
+import ru.yandex.practicum.filmorate.storage.interfaces.UserStorage;
 
 import java.util.*;
 
@@ -12,39 +14,32 @@ import java.util.*;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UserService {
-    private final Map<Integer, MyFriends> friendsMap = new HashMap<>();
+    private final UserStorage userStorage;
 
     public List<Integer> getFriends(int userId){
-        if(!friendsMap.containsKey(userId))return new ArrayList<>();
-        return List.copyOf(friendsMap.get(userId).getFriendsSet());
+        return List.copyOf(userStorage.getUserById(userId).getFriends());
     }
 
     public void makeFriendship(int userId1, int userId2) {
         if(userId1==userId2){
-            //log.info("Нельзя добавлять самого себя в друзья");
             throw new FriendAddError("Нельзя добавлять самого себя в друзья");
         }
-        addFriend(userId1, userId2);
-        addFriend(userId2, userId1);
+        if(!addFriend(userId1, userId2)||!addFriend(userId2, userId1))throw new FriendAddError("Уже друзья");
     }
 
     public void removeFriendship(int userId1, int userId2){
-       removeFriend(userId1, userId2);
-       removeFriend(userId2, userId1);
+       if(!removeFriend(userId1, userId2)||!removeFriend(userId2, userId1)) throw new FriendRemoveError();
     }
 
     public boolean checkFriendship(int userId1, int userId2){
-        if(!friendsMap.containsKey(userId1)||!friendsMap.containsKey(userId2)){
-            return false;
-        }
-        return friendsMap.get(userId1).getFriendsSet().contains(userId2);
+        return userStorage.getUserById(userId1).getFriends().contains(userId2);
     }
 
     public List<Integer> getOursFriendList(int userId1, int userId2){
-        if(!friendsMap.containsKey(userId1)||!friendsMap.containsKey(userId2)) return new ArrayList<>();
-        Set<Integer> friendSet1 = friendsMap.get(userId1).getFriendsSet();
-        Set<Integer> friendSet2 = friendsMap.get(userId2).getFriendsSet();
+        Set<Integer> friendSet1 = userStorage.getUserById(userId1).getFriends();
+        Set<Integer> friendSet2 = userStorage.getUserById(userId2).getFriends();
         Set<Integer> friends = intersection(friendSet1, friendSet2);
         return List.copyOf(friends);
     }
@@ -55,49 +50,11 @@ public class UserService {
         return result;
     }
 
-    private void addFriend(int userId, int friendId) {
-        MyFriends myFriends;
-        if (friendsMap.containsKey(userId)){
-            myFriends = friendsMap.get(userId);
-            if(myFriends.isMyFriend(friendId)) {
-                throw new FriendAddError("дружба уже установлена");
-            }
-        }
-        else myFriends = new MyFriends(userId);
-        myFriends.put(friendId);
-        friendsMap.put(userId,myFriends);
+    private boolean addFriend(int userId, int friendId) {
+        return userStorage.addFriend(userId, friendId);
     }
 
-    private void removeFriend(int userId, int friendId){
-        MyFriends myFriends;
-        if (friendsMap.containsKey(userId)){
-            myFriends = friendsMap.get(userId);
-            if(!myFriends.isMyFriend(friendId)) throw new FriendRemoveError();
-            myFriends.remove(friendId);
-        } else throw new FriendRemoveError();
-    }
-
-    static class MyFriends {
-        int userId;
-        private final Set<Integer> friends = new HashSet<>();
-        public MyFriends(int userId) {
-            this.userId = userId;
-        }
-
-        public Set<Integer> getFriendsSet(){
-            return Set.copyOf(friends);
-        }
-
-        void put(int frindId) {
-            if (frindId > 0) friends.add(frindId);
-        }
-
-        boolean isMyFriend(int friendId) {
-            return friends.contains(friendId);
-        }
-
-        void remove(int friendId) {
-            friends.remove(friendId);
-        }
+    private boolean removeFriend(int userId, int friendId){
+        return userStorage.removeFriend(userId, friendId);
     }
 }

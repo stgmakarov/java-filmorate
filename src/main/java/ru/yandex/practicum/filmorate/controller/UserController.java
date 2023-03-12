@@ -1,14 +1,14 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.services.UserService;
 import ru.yandex.practicum.filmorate.storage.interfaces.UserStorage;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.List;
 
 /**
  * @author Stanislav Makarov
@@ -16,15 +16,10 @@ import java.util.*;
 @RestController
 @RequestMapping("/users")
 @Slf4j
+@RequiredArgsConstructor
 public class UserController {
     private final UserStorage userStorage;
     private final UserService userService;
-    @Autowired
-    public UserController(UserStorage userStorage, UserService userService){
-        this.userStorage = userStorage;
-        this.userService = userService;
-    }
-
     @GetMapping
     public List<User> getAllUsers(){
         return userStorage.getListOfUsers();

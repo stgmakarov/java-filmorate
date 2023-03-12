@@ -3,6 +3,11 @@ package ru.yandex.practicum.filmorate.services;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.exceptions.user.FriendAddError;
+import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
+import ru.yandex.practicum.filmorate.storage.interfaces.UserStorage;
+
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,9 +17,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class UserServiceTests {
     private UserService userService;
+    private UserStorage userStorage;
     @BeforeEach
     public void initUserService(){
-        userService = new UserService();
+        userStorage = new InMemoryUserStorage();
+        userService = new UserService(userStorage);
+        for(int i =1;i<=5;i++){
+            User user = new User(0, "login" + i);
+            user.setEmail("email"+i+"@gmail.com");
+            user.setName("My Name");
+            user.setBirthday(LocalDate.of(1983,1,1));
+            userStorage.create(user);
+        }
     }
 
     @Test

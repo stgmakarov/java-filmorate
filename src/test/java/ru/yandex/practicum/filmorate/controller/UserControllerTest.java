@@ -6,6 +6,7 @@ import ru.yandex.practicum.filmorate.exceptions.user.*;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.services.UserService;
 import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
+import ru.yandex.practicum.filmorate.storage.interfaces.UserStorage;
 
 import java.time.LocalDate;
 
@@ -18,10 +19,12 @@ import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 public class UserControllerTest {
     UserController userController;
+    UserStorage userStorage;
 
     @BeforeEach
     void initUserController() {
-        userController = new UserController(new InMemoryUserStorage(), new UserService());
+        userStorage = new InMemoryUserStorage();
+        userController = new UserController(userStorage, new UserService(userStorage));
     }
 
     @Test

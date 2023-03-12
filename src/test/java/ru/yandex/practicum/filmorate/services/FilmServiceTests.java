@@ -2,7 +2,11 @@ package ru.yandex.practicum.filmorate.services;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.storage.InMemoryFilmStorage;
+import ru.yandex.practicum.filmorate.storage.interfaces.FilmStorage;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,10 +16,18 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class FilmServiceTests {
     private FilmService filmService;
+    private FilmStorage filmStorage;
+    private Film film;
 
     @BeforeEach
     public void initFilmService() {
-        filmService = new FilmService();
+        filmStorage = new InMemoryFilmStorage();
+        filmService = new FilmService(filmStorage);
+        film = new Film(0, "Alien");
+        film.setDuration(120);
+        film.setDescription("Alien film");
+        film.setReleaseDate(LocalDate.of(1979,1,1));
+        film = filmStorage.create(film);
     }
 
     @Test
@@ -36,6 +48,11 @@ public class FilmServiceTests {
     @Test
     public void topTenTest() {
         for (int filmId = 1; filmId <= 20; filmId++) {
+            film = new Film(0, "Alien");
+            film.setDuration(120);
+            film.setDescription("Alien film");
+            film.setReleaseDate(LocalDate.of(1979,1,1));
+            film = filmStorage.create(film);
             for (int userId = 1; userId <= filmId; userId++) {
                 assertTrue(filmService.like(filmId, userId));
             }
