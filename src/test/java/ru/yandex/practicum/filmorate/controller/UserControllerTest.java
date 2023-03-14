@@ -4,20 +4,27 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.exceptions.user.*;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.services.UserService;
+import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
+import ru.yandex.practicum.filmorate.storage.interfaces.UserStorage;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 /**
  * @author Stanislav Makarov
  */
+
 public class UserControllerTest {
     UserController userController;
+    UserStorage userStorage;
 
     @BeforeEach
     void initUserController() {
-        userController = new UserController();
+        userStorage = new InMemoryUserStorage();
+        userController = new UserController(userStorage, new UserService(userStorage));
     }
 
     @Test
@@ -30,7 +37,7 @@ public class UserControllerTest {
         assertEquals(user.getId(), 1);
 
         assertEquals(userController.getAllUsers().get(0).getLogin(), user.getLogin());
-        assertEquals(userController.getUser("1").getLogin(), user.getLogin());
+        assertEquals(userController.getUser(1).getLogin(), user.getLogin());
     }
 
     @Test
