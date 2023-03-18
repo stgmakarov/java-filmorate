@@ -47,6 +47,6 @@ ALTER TABLE "FilmLikes" ADD FOREIGN KEY ("film_id") REFERENCES "Film" ("id");
 
 ALTER TABLE "FilmLikes" ADD FOREIGN KEY ("user_id") REFERENCES "User" ("id");
 
-ALTER TABLE "Friends" ADD FOREIGN KEY ("user_id") REFERENCES "Film" ("id");
+ALTER TABLE "Friends" ADD FOREIGN KEY ("user_id") REFERENCES "User" ("id");
 
-ALTER TABLE "Friends" ADD FOREIGN KEY ("friend_id") REFERENCES "Film" ("id");
+ALTER TABLE "Friends" ADD FOREIGN KEY ("friend_id") REFERENCES "User" ("id");
