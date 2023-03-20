@@ -4,7 +4,6 @@ CREATE TABLE "Film" (
   "description" varchar,
   "releaseDate" Date,
   "duration" int,
-  "genre_id" int,
   "rating_id" int
 );
 
@@ -39,7 +38,11 @@ CREATE TABLE "Rating" (
   "name" varchar
 );
 
-ALTER TABLE "Film" ADD FOREIGN KEY ("genre_id") REFERENCES "Genre" ("id");
+CREATE TABLE "FilmGenre" (
+  "film_id" int,
+  "genre_id" int,
+  PRIMARY KEY ("film_id", "genre_id")
+);
 
 ALTER TABLE "Film" ADD FOREIGN KEY ("rating_id") REFERENCES "Rating" ("id");
 
@@ -50,3 +53,7 @@ ALTER TABLE "FilmLikes" ADD FOREIGN KEY ("user_id") REFERENCES "User" ("id");
 ALTER TABLE "Friends" ADD FOREIGN KEY ("user_id") REFERENCES "User" ("id");
 
 ALTER TABLE "Friends" ADD FOREIGN KEY ("friend_id") REFERENCES "User" ("id");
+
+ALTER TABLE "FilmGenre" ADD FOREIGN KEY ("film_id") REFERENCES "Film" ("id");
+
+ALTER TABLE "FilmGenre" ADD FOREIGN KEY ("genre_id") REFERENCES "Genre" ("id");
