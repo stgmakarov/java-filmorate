@@ -26,7 +26,15 @@ public class UserService {
         if(userId1==userId2){
             throw new FriendAddError("Нельзя добавлять самого себя в друзья");
         }
-        if(!addFriend(userId1, userId2)||!addFriend(userId2, userId1))throw new FriendAddError("Уже друзья");
+        boolean fs1 = checkFriendship(userId1,userId2);
+        boolean fs2 = checkFriendship(userId2,userId1);
+        if(!fs1 && !fs2){
+            if(!addFriend(userId1, userId2, true)||!addFriend(userId2, userId1, false))throw new FriendAddError("Уже друзья");
+        }else if (!fs1){
+            if(!userStorage.confirmFriend(userId1,userId2)) throw new FriendAddError("Дружба уже подтверждена");
+        }else{
+            if(!userStorage.confirmFriend(userId2,userId1)) throw new FriendAddError("Дружба уже подтверждена");
+        }
     }
 
     public void removeFriendship(int userId1, int userId2){
@@ -50,8 +58,8 @@ public class UserService {
         return result;
     }
 
-    private boolean addFriend(int userId, int friendId) {
-        return userStorage.addFriend(userId, friendId);
+    private boolean addFriend(int userId, int friendId, boolean confirmed) {
+        return userStorage.addFriend(userId, friendId, confirmed);
     }
 
     private boolean removeFriend(int userId, int friendId){

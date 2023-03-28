@@ -3,10 +3,12 @@ package ru.yandex.practicum.filmorate.services;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.storage.InMemoryFilmStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces.FilmStorage;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,7 +25,14 @@ public class FilmServiceTests {
     public void initFilmService() {
         filmStorage = new InMemoryFilmStorage();
         filmService = new FilmService(filmStorage);
-        film = new Film(0, "Alien");
+        film = new Film(0, "Test","testdesc"
+                ,LocalDate.of(1983,1,1)
+                ,180
+                ,new HashSet<>()
+                ,new Mpa(1,"")
+                ,new HashSet<>()
+
+        );
         film.setDuration(120);
         film.setDescription("Alien film");
         film.setReleaseDate(LocalDate.of(1979,1,1));
@@ -48,7 +57,14 @@ public class FilmServiceTests {
     @Test
     public void topTenTest() {
         for (int filmId = 1; filmId <= 20; filmId++) {
-            film = new Film(0, "Alien");
+            film = new Film(0, "Test","testdesc"
+                    ,LocalDate.of(1983,1,1)
+                    ,180
+                    ,new HashSet<>()
+                    ,new Mpa(1,"")
+                    ,new HashSet<>()
+
+            );
             film.setDuration(120);
             film.setDescription("Alien film");
             film.setReleaseDate(LocalDate.of(1979,1,1));

@@ -1,12 +1,13 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exceptions.film.AlreadyLikedException;
 import ru.yandex.practicum.filmorate.exceptions.film.MissedLikeException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.services.FilmService;
+import ru.yandex.practicum.filmorate.services.GenreService;
 import ru.yandex.practicum.filmorate.storage.interfaces.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces.UserStorage;
 
@@ -19,17 +20,11 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/films")
 @Slf4j
+@AllArgsConstructor
 public class FilmController {
     private final FilmStorage filmStorage;
     private final FilmService filmService;
     private final UserStorage userStorage;
-
-    @Autowired
-    public FilmController(FilmStorage filmStorage, FilmService filmService, UserStorage userStorage) {
-        this.filmStorage = filmStorage;
-        this.filmService = filmService;
-        this.userStorage = userStorage;
-    }
 
     @PostMapping
     public Film create(@Valid @RequestBody Film film) {

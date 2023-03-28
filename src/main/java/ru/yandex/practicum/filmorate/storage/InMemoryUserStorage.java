@@ -62,6 +62,7 @@ public class InMemoryUserStorage implements UserStorage {
         oldUser.setBirthday(user.getBirthday());
         oldUser.setEmail(user.getEmail());
         oldUser.setFriends(user.getFriends());
+        oldUser.setUnconfirmedFriends(user.getUnconfirmedFriends());
 
         userMap.put(userId,oldUser);
         return oldUser;
@@ -103,14 +104,15 @@ public class InMemoryUserStorage implements UserStorage {
         return userMap.get(userId);
     }
     @Override
-    public boolean addFriend(int userId, int friendId) {
+    public boolean addFriend(int userId, int friendId, boolean confirmed) {
         User user = getUserById(userId);
         if(user.getFriends().contains(friendId))
         {
             log.info("Уже в друзьях");
             return false;
         }
-        user.getFriends().add(friendId);
+        if(confirmed)user.getFriends().add(friendId);
+        else user.getUnconfirmedFriends().add(friendId);
         update(user);
         return true;
     }
@@ -123,7 +125,37 @@ public class InMemoryUserStorage implements UserStorage {
             return false;
         }
         user.getFriends().remove(friendId);
+        user.getUnconfirmedFriends().remove(friendId);
         update(user);
         return true;
+    }
+
+    @Override
+    public boolean confirmFriend(int userId, int friendId) {
+        if(userMap.get(userId).getUnconfirmedFriends().remove(friendId)){
+            userMap.get(userId).getFriends().add(friendId);
+            return true;
+        }else return false;
+    }
+
+    @Override
+    public Set<Integer> getFriends(int userId) {
+        return getFriends(userId,null);
+    }
+
+    @Override
+    public Set<Integer> getFriends(int userId, Boolean confirmed) {
+        if (confirmed==null) {
+            Set<Integer> allFriends = new HashSet<>(userMap.get(userId).getFriends());
+            allFriends.addAll(userMap.get(userId).getUnconfirmedFriends());
+            return allFriends;
+        }
+
+        if (confirmed) {
+            return userMap.get(userId).getFriends();
+        } else {
+            return userMap.get(userId).getUnconfirmedFriends();
+        }
+
     }
 }

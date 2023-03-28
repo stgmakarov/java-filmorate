@@ -1,10 +1,12 @@
 package ru.yandex.practicum.filmorate.storage.interfaces;
 
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Genre;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Stanislav Makarov
@@ -21,4 +23,6 @@ public interface FilmStorage {
     List<Film> getListOfFilms(List<Integer> films);
     boolean like(int filmId, int userId);
     boolean dislike(int filmId, int userId);
+    Set<Integer> getLikedUsers(int filmId);
+    Set<Genre> getFilmGenres(int filmId);
 }

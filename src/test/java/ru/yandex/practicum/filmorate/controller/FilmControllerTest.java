@@ -7,12 +7,14 @@ import ru.yandex.practicum.filmorate.exceptions.film.FilmDescriptionTooMachLengt
 import ru.yandex.practicum.filmorate.exceptions.film.FilmDurationIsIncorrect;
 import ru.yandex.practicum.filmorate.exceptions.film.FilmIdNotExists;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.services.FilmService;
 import ru.yandex.practicum.filmorate.storage.InMemoryFilmStorage;
 import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces.FilmStorage;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
@@ -32,7 +34,14 @@ class FilmControllerTest {
 
     @Test
     void createFilmOk() {
-        Film film = new Film(0, "Test");
+        Film film = new Film(0, "Test","testdesc"
+                ,LocalDate.of(1983,1,1)
+                ,180
+                ,new HashSet<>()
+                ,new Mpa(1,"")
+                ,new HashSet<>()
+
+        );
         film.setDuration(100);
         film.setDescription("test description");
         film.setReleaseDate(LocalDate.of(2020, 1, 1));
@@ -46,7 +55,14 @@ class FilmControllerTest {
 
     @Test
     void updateFilmOk() {
-        Film film = new Film(0, "Test");
+        Film film = new Film(0, "Test","testdesc"
+                ,LocalDate.of(1983,1,1)
+                ,180
+                ,new HashSet<>()
+                ,new Mpa(1,"")
+                ,new HashSet<>()
+
+        );
         film.setDuration(100);
         film.setDescription("test description");
         film.setReleaseDate(LocalDate.of(2020, 1, 1));
@@ -62,7 +78,14 @@ class FilmControllerTest {
 
     @Test
     void updateFilmFail() {
-        Film film = new Film(0, "Test");
+        Film film = new Film(0, "Test","testdesc"
+                ,LocalDate.of(1983,1,1)
+                ,180
+                ,new HashSet<>()
+                ,new Mpa(1,"")
+                ,new HashSet<>()
+
+        );
         film.setDuration(100);
         film.setDescription("test description");
         film.setReleaseDate(LocalDate.of(2020, 1, 1));
@@ -75,7 +98,14 @@ class FilmControllerTest {
 
     @Test
     void updateFilmFail2() {
-        Film film = new Film(0, "Test");
+        Film film = new Film(0, "Test","testdesc"
+                ,LocalDate.of(1983,1,1)
+                ,180
+                ,new HashSet<>()
+                ,new Mpa(1,"")
+                ,new HashSet<>()
+
+        );
         film.setDuration(100);
         film.setDescription("test description");
         film.setReleaseDate(LocalDate.of(2020, 1, 1));
@@ -88,7 +118,14 @@ class FilmControllerTest {
 
     @Test
     void createFilmFailFilmDateIncorrect() {
-        Film film = new Film(0, "Test");
+        Film film = new Film(0, "Test","testdesc"
+                ,LocalDate.of(1983,1,1)
+                ,180
+                ,new HashSet<>()
+                ,new Mpa(1,"")
+                ,new HashSet<>()
+
+        );
         film.setDuration(100);
         film.setDescription("test description");
         film.setReleaseDate(LocalDate.of(1800, 1, 1));
@@ -98,7 +135,14 @@ class FilmControllerTest {
 
     @Test
     void createFilmFailFilmDescriptionTooMachLength() {
-        Film film = new Film(0, "Test");
+        Film film = new Film(0, "Test","testdesc"
+                ,LocalDate.of(1983,1,1)
+                ,180
+                ,new HashSet<>()
+                ,new Mpa(1,"")
+                ,new HashSet<>()
+
+        );
         film.setDuration(100);
         film.setDescription("test descriptionassssssssssssssssssssssssssssssssssss" +
                 "asssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" +
@@ -115,7 +159,14 @@ class FilmControllerTest {
 
     @Test
     void createFilmFailFilmDurationIsIncorrect() {
-        Film film = new Film(0, "Test");
+        Film film = new Film(0, "Test","testdesc"
+                ,LocalDate.of(1983,1,1)
+                ,180
+                ,new HashSet<>()
+                ,new Mpa(1,"")
+                ,new HashSet<>()
+
+        );
         film.setDuration(-5);
         film.setDescription("test description");
         film.setReleaseDate(LocalDate.of(2000, 1, 1));

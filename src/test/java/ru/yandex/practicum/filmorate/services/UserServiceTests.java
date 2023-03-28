@@ -8,6 +8,7 @@ import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces.UserStorage;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +24,14 @@ public class UserServiceTests {
         userStorage = new InMemoryUserStorage();
         userService = new UserService(userStorage);
         for(int i =1;i<=5;i++){
-            User user = new User(0, "login" + i);
+            User user = new User(0
+                    ,"assd@hagel.com"
+                    , "login" + i
+                    , "test"
+                    , LocalDate.of(1983,1,1)
+                    , new HashSet<>()
+                    , new HashSet<>()
+            );
             user.setEmail("email"+i+"@gmail.com");
             user.setName("My Name");
             user.setBirthday(LocalDate.of(1983,1,1));
@@ -39,15 +47,20 @@ public class UserServiceTests {
     @Test
     public void testAddFriend(){
         assertDoesNotThrow(()->userService.makeFriendship(1,2));
+        assertDoesNotThrow(()->userService.makeFriendship(2,1));
         assertDoesNotThrow(()->userService.makeFriendship(1,3));
-        assertTrue(userService.checkFriendship(2,1));
         assertTrue(userService.checkFriendship(1,2));
+        assertTrue(userService.checkFriendship(2,1));
+        assertFalse(userService.checkFriendship(3,1));
+
     }
 
     @Test
     public void testRemoveFriend(){
         assertDoesNotThrow(()->userService.makeFriendship(1,2));
+        assertDoesNotThrow(()->userService.makeFriendship(2,1));
         assertDoesNotThrow(()->userService.makeFriendship(1,3));
+        assertDoesNotThrow(()->userService.makeFriendship(3,1));
         assertTrue(userService.checkFriendship(1,2));
         assertTrue(userService.checkFriendship(2,1));
         assertDoesNotThrow(() -> userService.removeFriendship(2,1));
