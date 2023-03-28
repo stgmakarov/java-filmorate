@@ -27,22 +27,22 @@ class FilmorateApplicationTests {
 
     @BeforeAll
     void initUser() {
-        userStorage.create(new User(0
-                , "assd@hagel.com"
-                , "login"
-                , "test"
-                , LocalDate.of(1983, 1, 1)
-                , new HashSet<>()
-                , new HashSet<>()
+        userStorage.create(new User(0,
+                "assd@hagel.com",
+                "login",
+                "test",
+                LocalDate.of(1983, 1, 1),
+                new HashSet<>(),
+                new HashSet<>()
         ));
 
-        userStorage.create(new User(0
-                , "assd1@hagel.com"
-                , "login1"
-                , "test1"
-                , LocalDate.of(1983, 1, 1)
-                , new HashSet<>()
-                , new HashSet<>()
+        userStorage.create(new User(0,
+                "assd1@hagel.com",
+                "login1",
+                "test1",
+                LocalDate.of(1983, 1, 1),
+                new HashSet<>(),
+                new HashSet<>()
         ));
 
         userService.makeFriendship(1, 2);
