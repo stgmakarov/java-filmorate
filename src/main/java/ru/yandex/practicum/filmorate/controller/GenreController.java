@@ -19,8 +19,8 @@ import java.util.List;
 public class GenreController {
     @Autowired
     private GenreStorage genreStorage;
-    @GetMapping
 
+    @GetMapping
     public List<Genre> getAllGenre() {
        return genreStorage.getGenre();
     }
