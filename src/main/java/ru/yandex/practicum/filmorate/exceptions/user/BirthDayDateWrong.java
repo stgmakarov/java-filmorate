@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @Slf4j
 public class BirthDayDateWrong extends ResponseStatusException {
-    public BirthDayDateWrong(){
-        super(HttpStatus.BAD_REQUEST,"дата рождения не может быть в будущем");
+    public BirthDayDateWrong() {
+        super(HttpStatus.BAD_REQUEST, "дата рождения не может быть в будущем");
     }
 }

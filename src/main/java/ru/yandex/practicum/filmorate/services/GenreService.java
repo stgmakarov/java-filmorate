@@ -15,12 +15,12 @@ import java.util.List;
 public class GenreService {
     private final GenreStorage genreStorage;
 
-    public Film updateGenreText(Film film){
+    public Film updateGenreText(Film film) {
         film.getGenres().forEach(genre -> genre.setName(genreStorage.getGenreText(genre.getId())));
         return film;
     }
 
-    public List<Film> updateGenreText(List<Film> filmList){
+    public List<Film> updateGenreText(List<Film> filmList) {
         filmList.forEach(this::updateGenreText);
         return filmList;
     }

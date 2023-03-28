@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @Slf4j
 public class LoginAlreadyRegistered extends ResponseStatusException {
-    public LoginAlreadyRegistered(String login){
-        super(HttpStatus.BAD_REQUEST,String.format("Логин %s уже зарегистрирован", login));
+    public LoginAlreadyRegistered(String login) {
+        super(HttpStatus.BAD_REQUEST, String.format("Логин %s уже зарегистрирован", login));
     }
 }

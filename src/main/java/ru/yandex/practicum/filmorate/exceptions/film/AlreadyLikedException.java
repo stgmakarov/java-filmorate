@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @Slf4j
 public class AlreadyLikedException extends ResponseStatusException {
-    public AlreadyLikedException(){
+    public AlreadyLikedException() {
         super(HttpStatus.BAD_REQUEST, "Ошибка, лайк уже был поставлен");
     }
 }

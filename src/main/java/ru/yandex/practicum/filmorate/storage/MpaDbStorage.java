@@ -16,6 +16,7 @@ import java.util.List;
 public class MpaDbStorage implements MpaStorage {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
     @Override
     public List<Mpa> getMpa() {
         String sqlQuery = "SELECT \"id\", \"name\"\n" +
@@ -30,10 +31,10 @@ public class MpaDbStorage implements MpaStorage {
         String sqlQuery = "SELECT \"id\", \"name\"\n" +
                 "FROM PUBLIC.\"Rating\" WHERE \"id\"=?;";
 
-        return jdbcTemplate.query(sqlQuery, ps -> ps.setInt(1,id), rs -> {
-            if(rs.next()){
-                return new Mpa(rs.getInt("id"), rs.getString("name"));}
-            else throw new MpaNotFoundException();
+        return jdbcTemplate.query(sqlQuery, ps -> ps.setInt(1, id), rs -> {
+            if (rs.next()) {
+                return new Mpa(rs.getInt("id"), rs.getString("name"));
+            } else throw new MpaNotFoundException();
         });
 
 /*        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery, id);

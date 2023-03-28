@@ -22,7 +22,7 @@ public class GenreController {
 
     @GetMapping
     public List<Genre> getAllGenre() {
-       return genreStorage.getGenre();
+        return genreStorage.getGenre();
     }
 
     @GetMapping("/{id}")

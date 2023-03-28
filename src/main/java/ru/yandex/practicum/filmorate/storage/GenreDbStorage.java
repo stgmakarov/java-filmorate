@@ -21,6 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class GenreDbStorage implements GenreStorage {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
     @Override
     public List<Genre> getGenre() {
         String sqlQuery = "SELECT \"id\", \"description\"\n" +
@@ -35,10 +36,10 @@ public class GenreDbStorage implements GenreStorage {
         String sqlQuery = "SELECT \"id\", \"description\"\n" +
                 "FROM PUBLIC.\"Genre\" WHERE \"id\"=?;";
 
-        return jdbcTemplate.query(sqlQuery, ps -> ps.setInt(1,id), rs -> {
-            if(rs.next()){
-                return new Genre(rs.getInt("id"), rs.getString("description"));}
-            else throw new GenreNotFoundException();
+        return jdbcTemplate.query(sqlQuery, ps -> ps.setInt(1, id), rs -> {
+            if (rs.next()) {
+                return new Genre(rs.getInt("id"), rs.getString("description"));
+            } else throw new GenreNotFoundException();
         });
     }
 
@@ -47,20 +48,20 @@ public class GenreDbStorage implements GenreStorage {
         String sqlQuery = "SELECT \"description\"\n" +
                 "FROM PUBLIC.\"Genre\" WHERE \"id\"=?;";
 
-        return jdbcTemplate.query(sqlQuery, ps -> ps.setInt(1,id), rs -> {
-            if(rs.next()){
-                return rs.getString("description");}
-            else throw new GenreNotFoundException();
+        return jdbcTemplate.query(sqlQuery, ps -> ps.setInt(1, id), rs -> {
+            if (rs.next()) {
+                return rs.getString("description");
+            } else throw new GenreNotFoundException();
         });
     }
 
     @Override
-    public void updateFilmGenres(int filmId, Set<Integer> genres){
+    public void updateFilmGenres(int filmId, Set<Integer> genres) {
         String sqlQueryDel = "DELETE FROM \"FilmGenre\"\n" +
                 "WHERE \"film_id\"=?;";
 
-        jdbcTemplate.update(sqlQueryDel,filmId);
-        if(!genres.isEmpty()){
+        jdbcTemplate.update(sqlQueryDel, filmId);
+        if (!genres.isEmpty()) {
             String sqlQueryIns = "INSERT INTO PUBLIC.\"FilmGenre\"\n" +
                     "(\"film_id\", \"genre_id\")\n" +
                     "VALUES";
@@ -72,8 +73,8 @@ public class GenreDbStorage implements GenreStorage {
                 AtomicInteger i = new AtomicInteger();
                 genres.forEach(genre -> {
                     try {
-                        statement.setInt(i.get() *2+1,filmId);
-                        statement.setInt((i.getAndIncrement()) *2+2,genre);
+                        statement.setInt(i.get() * 2 + 1, filmId);
+                        statement.setInt((i.getAndIncrement()) * 2 + 2, genre);
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }

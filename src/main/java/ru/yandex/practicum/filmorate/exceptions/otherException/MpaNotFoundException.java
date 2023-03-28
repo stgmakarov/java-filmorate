@@ -7,8 +7,8 @@ import org.springframework.web.server.ResponseStatusException;
  * @author Stanislav Makarov
  */
 public class MpaNotFoundException extends ResponseStatusException {
-    public MpaNotFoundException(){
-        super(HttpStatus.NOT_FOUND,"Такой рейтинг не существует");
+    public MpaNotFoundException() {
+        super(HttpStatus.NOT_FOUND, "Такой рейтинг не существует");
     }
 }
 

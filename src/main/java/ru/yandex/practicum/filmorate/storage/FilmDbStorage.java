@@ -36,7 +36,7 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film create(Film film) {
-        checker(film,false);
+        checker(film, false);
 
         String sqlQuery = "INSERT INTO \"Film\"\n" +
                 "(\"name\", \"description\", \"releaseDate\", \"duration\", \"rating_id\")\n" +
@@ -48,15 +48,15 @@ public class FilmDbStorage implements FilmStorage {
             PreparedStatement stmt = conn.prepareStatement(sqlQuery, new String[]{"id"});
             stmt.setString(1, film.getName());
             stmt.setString(2, film.getDescription());
-            stmt.setDate(3,Date.valueOf(film.getReleaseDate()));
+            stmt.setDate(3, Date.valueOf(film.getReleaseDate()));
             stmt.setInt(4, film.getDuration());
             stmt.setInt(5, film.getMpa().getId());
             return stmt;
         }, keyHolder);
         film.setId(Objects.requireNonNull(keyHolder.getKey()).intValue());
-        film.setMpa(new Mpa(film.getMpa().getId(),getRatingDescription(film.getMpa().getId())));
+        film.setMpa(new Mpa(film.getMpa().getId(), getRatingDescription(film.getMpa().getId())));
         //film.getGenres().forEach(genre -> film.setGenres(genreStorage.getGenre(genre.getId())));
-        genreStorage.updateFilmGenres(film.getId(),film.getGenres()
+        genreStorage.updateFilmGenres(film.getId(), film.getGenres()
                 .stream()
                 .map(Genre::getId)
                 .collect(Collectors.toSet())
@@ -66,7 +66,7 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film update(Film film) {
-        checker(film,true);
+        checker(film, true);
 
         String sqlQuery = "UPDATE \"Film\"\n" +
                 "SET \"name\"=?, \"description\"=?, \"releaseDate\"=?, \"duration\"=?, \"rating_id\"=?\n" +
@@ -76,14 +76,14 @@ public class FilmDbStorage implements FilmStorage {
             PreparedStatement stmt = conn.prepareStatement(sqlQuery, new String[]{"id"});
             stmt.setString(1, film.getName());
             stmt.setString(2, film.getDescription());
-            stmt.setDate(3,Date.valueOf(film.getReleaseDate()));
+            stmt.setDate(3, Date.valueOf(film.getReleaseDate()));
             stmt.setInt(4, film.getDuration());
             stmt.setInt(5, film.getMpa().getId());
             stmt.setInt(6, film.getId());
             return stmt;
         });
-        film.setMpa(new Mpa(film.getMpa().getId(),getRatingDescription(film.getMpa().getId())));
-        genreStorage.updateFilmGenres(film.getId(),film.getGenres()
+        film.setMpa(new Mpa(film.getMpa().getId(), getRatingDescription(film.getMpa().getId())));
+        genreStorage.updateFilmGenres(film.getId(), film.getGenres()
                 .stream()
                 .map(Genre::getId)
                 .collect(Collectors.toSet()));
@@ -103,7 +103,7 @@ public class FilmDbStorage implements FilmStorage {
                 , rs.getDate("releaseDate").toLocalDate()
                 , rs.getInt("duration")
                 , getLikedUsers(rs.getInt("id"))
-                , new Mpa(rs.getInt("rating_id"),rs.getString("rating_desc"))
+                , new Mpa(rs.getInt("rating_id"), rs.getString("rating_desc"))
                 , getFilmGenres(rs.getInt("id"))
         ));
         films.forEach(film -> film.setLikedUsers(getLikedUsers(film.getId())));
@@ -111,13 +111,13 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     private String getRatingDescription(int ratingId) {
-        String sqlQuery = "select \"name\" from \"Rating\"\n"+
+        String sqlQuery = "select \"name\" from \"Rating\"\n" +
                 "where \"id\"=?;";
 
-        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sqlQuery,ratingId);
-        if(rowSet.next()){
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sqlQuery, ratingId);
+        if (rowSet.next()) {
             return rowSet.getString("name");
-        }else return " - ";
+        } else return " - ";
     }
 
     @Override
@@ -128,27 +128,28 @@ public class FilmDbStorage implements FilmStorage {
                 "LEFT JOIN \"Rating\" AS r ON f.\"rating_id\" = r.\"id\"\n" +
                 "WHERE f.\"id\" =?;";
 
-        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery,new String[]{String.valueOf(filmId)});
-        if(rs.next()){
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery, new String[]{String.valueOf(filmId)});
+        if (rs.next()) {
             return genreService.updateGenreText(new Film(rs.getInt("id")
                     , Objects.requireNonNull(rs.getString("name"))
                     , rs.getString("description")
                     , rs.getDate("releaseDate").toLocalDate()
                     , rs.getInt("duration")
                     , getLikedUsers(rs.getInt("id"))
-                    , new Mpa(rs.getInt("rating_id"),rs.getString("rating_desc"))
+                    , new Mpa(rs.getInt("rating_id"), rs.getString("rating_desc"))
                     , getFilmGenres(rs.getInt("id"))
             ));
-        }else throw new FilmIdNotExists(filmId);
+        } else throw new FilmIdNotExists(filmId);
     }
 
     @Override
     public void checker(Film film, boolean updateFlag) {
-        if(updateFlag) getFilmById(film.getId());
-        if(film.getName().isEmpty())throw new EmptyFilmNameException();
-        if(film.getDescription().length()>MAX_DESC_LENGTH)throw new FilmDescriptionTooMachLength(MAX_DESC_LENGTH);
-        if(film.getReleaseDate().isBefore(FIRST_FILM_DATE))throw new FilmDateIsIncorrect(FIRST_FILM_DATE.format(formatter));
-        if(film.getDuration()<=0)throw new FilmDurationIsIncorrect();
+        if (updateFlag) getFilmById(film.getId());
+        if (film.getName().isEmpty()) throw new EmptyFilmNameException();
+        if (film.getDescription().length() > MAX_DESC_LENGTH) throw new FilmDescriptionTooMachLength(MAX_DESC_LENGTH);
+        if (film.getReleaseDate().isBefore(FIRST_FILM_DATE))
+            throw new FilmDateIsIncorrect(FIRST_FILM_DATE.format(formatter));
+        if (film.getDuration() <= 0) throw new FilmDurationIsIncorrect();
     }
 
     @Override
@@ -170,7 +171,7 @@ public class FilmDbStorage implements FilmStorage {
                         , rs.getDate("releaseDate").toLocalDate()
                         , rs.getInt("duration")
                         , getLikedUsers(rs.getInt("id"))
-                        , new Mpa(rs.getInt("rating_id"),rs.getString("rating_desc"))
+                        , new Mpa(rs.getInt("rating_id"), rs.getString("rating_desc"))
                         , getFilmGenres(rs.getInt("id"))
                 )
         ));
@@ -178,7 +179,7 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public boolean like(int filmId, int userId) {
-        if(getLikedUsers(filmId).contains(userId)){
+        if (getLikedUsers(filmId).contains(userId)) {
             log.info("Нельзя лайкать дважды");
             return false;
         }
@@ -189,7 +190,7 @@ public class FilmDbStorage implements FilmStorage {
         jdbcTemplate.update(conn -> {
             PreparedStatement stmt = conn.prepareStatement(sqlQuery);
             stmt.setInt(1, filmId);
-            stmt.setInt(2,userId);
+            stmt.setInt(2, userId);
             return stmt;
         });
 
@@ -198,7 +199,7 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public boolean dislike(int filmId, int userId) {
-        if(!getLikedUsers(filmId).contains(userId)){
+        if (!getLikedUsers(filmId).contains(userId)) {
             log.info("Убрать лайк можно только у понравившихся фильмов");
             return false;
         }
@@ -208,7 +209,7 @@ public class FilmDbStorage implements FilmStorage {
         jdbcTemplate.update(conn -> {
             PreparedStatement stmt = conn.prepareStatement(sqlQuery);
             stmt.setInt(1, filmId);
-            stmt.setInt(2,userId);
+            stmt.setInt(2, userId);
             return stmt;
         });
 
@@ -217,11 +218,11 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Set<Integer> getLikedUsers(int filmId) {
-        String sqlQuery = "select \"user_id\" from \"FilmLikes\"\n"+
+        String sqlQuery = "select \"user_id\" from \"FilmLikes\"\n" +
                 "where \"film_id\"=?;";
         List<Integer> likedUsers = jdbcTemplate.query(sqlQuery,
                 new ArgumentPreparedStatementSetter(new Object[]{filmId}),
-                (rs, rowNum)-> rs.getInt("user_id")
+                (rs, rowNum) -> rs.getInt("user_id")
         );
         return new HashSet<>(likedUsers);
     }
@@ -233,12 +234,12 @@ public class FilmDbStorage implements FilmStorage {
                 "\tLEFT JOIN \"Genre\" AS G ON fg.\"genre_id\" = g.\"id\"\n" +
                 "\tWHERE fg.\"film_id\" = ?;";
 
-        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sqlQuery,filmId);
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sqlQuery, filmId);
 
         Set<Genre> res = new HashSet<>();
 
-        while (rowSet.next()){
-            res.add(new Genre(rowSet.getInt("genre_id"),rowSet.getString("description")));
+        while (rowSet.next()) {
+            res.add(new Genre(rowSet.getInt("genre_id"), rowSet.getString("description")));
         }
         return res;
     }

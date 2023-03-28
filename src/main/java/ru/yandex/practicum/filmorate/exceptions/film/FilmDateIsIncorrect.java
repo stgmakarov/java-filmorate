@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @Slf4j
 public class FilmDateIsIncorrect extends ResponseStatusException {
-    public FilmDateIsIncorrect(String firstFilmDate){
+    public FilmDateIsIncorrect(String firstFilmDate) {
         super(HttpStatus.BAD_REQUEST, String.format("Дата не может быть раньше %s", firstFilmDate));
     }
 }

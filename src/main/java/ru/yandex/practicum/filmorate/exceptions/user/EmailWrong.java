@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @Slf4j
 public class EmailWrong extends ResponseStatusException {
-    public EmailWrong(String email, String errorText){
-        super(HttpStatus.BAD_REQUEST,String.format("EMail %s не корректен: %s", email, errorText));
+    public EmailWrong(String email, String errorText) {
+        super(HttpStatus.BAD_REQUEST, String.format("EMail %s не корректен: %s", email, errorText));
     }
 }

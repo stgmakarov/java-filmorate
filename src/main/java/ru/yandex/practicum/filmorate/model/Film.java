@@ -29,7 +29,7 @@ public class Film {
     private Set<Genre> genres;
 
     public Set<Genre> getGenres() {
-        if(genres==null) genres = new HashSet<>();
+        if (genres == null) genres = new HashSet<>();
         return genres;
     }
 }

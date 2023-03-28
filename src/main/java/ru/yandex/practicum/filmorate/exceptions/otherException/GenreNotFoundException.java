@@ -7,8 +7,8 @@ import org.springframework.web.server.ResponseStatusException;
  * @author Stanislav Makarov
  */
 public class GenreNotFoundException extends ResponseStatusException {
-    public GenreNotFoundException(){
-        super(HttpStatus.NOT_FOUND,"Такой жанр не существует");
+    public GenreNotFoundException() {
+        super(HttpStatus.NOT_FOUND, "Такой жанр не существует");
     }
 }
 

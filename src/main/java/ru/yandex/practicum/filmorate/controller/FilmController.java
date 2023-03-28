@@ -57,7 +57,7 @@ public class FilmController {
     public void dislike(@Valid @PathVariable("id") int filmId, @Valid @PathVariable("userId") int userId) {
         filmStorage.getFilmById(filmId);//проверка на существование ИД
         userStorage.getUserById(userId);//проверка на существование ИД
-        if (!filmService.dislike(filmId, userId))throw new MissedLikeException();
+        if (!filmService.dislike(filmId, userId)) throw new MissedLikeException();
     }
 
     @GetMapping("/popular")

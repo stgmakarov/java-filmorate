@@ -22,9 +22,10 @@ public class InMemoryFilmStorage implements FilmStorage {
     private int filmLastId = 1;
     private final Map<Integer, Film> filmMap = new HashMap<>();
 
-    /**Увеличение ID на тот случай, если будет вызвано одновременно двумя клинтами
+    /**
+     * Увеличение ID на тот случай, если будет вызвано одновременно двумя клинтами
      */
-    private synchronized int getLastId(){
+    private synchronized int getLastId() {
         return filmLastId++;
     }
 
@@ -48,7 +49,7 @@ public class InMemoryFilmStorage implements FilmStorage {
         oldFilm.setDescription(film.getDescription());
         oldFilm.setReleaseDate(film.getReleaseDate());
         oldFilm.setLikedUsers(film.getLikedUsers());
-        filmMap.put(filmId,oldFilm);
+        filmMap.put(filmId, oldFilm);
         return oldFilm;
     }
 
@@ -58,34 +59,34 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
-    public List<Film> getListOfFilms(List<Integer> films){
+    public List<Film> getListOfFilms(List<Integer> films) {
         return filmMap.values().stream()
-                 .filter(film -> films.contains(film.getId()))
-                 .collect(Collectors.toList());
+                .filter(film -> films.contains(film.getId()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public Film getFilmById(int filmId) {
-        if(!filmMap.containsKey(filmId))throw new FilmIdNotExists(filmId);
+        if (!filmMap.containsKey(filmId)) throw new FilmIdNotExists(filmId);
         return filmMap.get(filmId);
     }
 
-    public void checker(Film film, boolean updateFlag){
-        if(updateFlag){
+    public void checker(Film film, boolean updateFlag) {
+        if (updateFlag) {
             int filmId = film.getId();
-            if(!filmMap.containsKey(filmId))throw new FilmIdNotExists(filmId);
+            if (!filmMap.containsKey(filmId)) throw new FilmIdNotExists(filmId);
         }
-        if(film.getName().isEmpty())throw new EmptyFilmNameException();
-        if(film.getDescription().length()>MAX_DESC_LENGTH)throw new FilmDescriptionTooMachLength(MAX_DESC_LENGTH);
-        if(film.getReleaseDate().isBefore(FIRST_FILM_DATE))throw new FilmDateIsIncorrect(FIRST_FILM_DATE.format(formatter));
-        if(film.getDuration()<=0)throw new FilmDurationIsIncorrect();
+        if (film.getName().isEmpty()) throw new EmptyFilmNameException();
+        if (film.getDescription().length() > MAX_DESC_LENGTH) throw new FilmDescriptionTooMachLength(MAX_DESC_LENGTH);
+        if (film.getReleaseDate().isBefore(FIRST_FILM_DATE))
+            throw new FilmDateIsIncorrect(FIRST_FILM_DATE.format(formatter));
+        if (film.getDuration() <= 0) throw new FilmDurationIsIncorrect();
     }
 
     @Override
-    public boolean like(int filmId, int userId){
+    public boolean like(int filmId, int userId) {
         Film film = getFilmById(filmId);
-        if(film.getLikedUsers().contains(userId))
-        {
+        if (film.getLikedUsers().contains(userId)) {
             log.info("Нельзя лайкать дважды");
             return false;
         }
@@ -95,9 +96,9 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
-    public boolean dislike(int filmId, int userId){
+    public boolean dislike(int filmId, int userId) {
         Film film = getFilmById(filmId);
-        if(!film.getLikedUsers().contains(userId)){
+        if (!film.getLikedUsers().contains(userId)) {
             log.info("Убрать лайк можно только у понравившихся фильмов");
             return false;
         }

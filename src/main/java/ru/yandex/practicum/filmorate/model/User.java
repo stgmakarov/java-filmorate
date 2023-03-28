@@ -28,6 +28,7 @@ public class User {
     private LocalDate birthday;
     private Set<Integer> friends;
     private Set<Integer> unconfirmedFriends;
+
     public void setEmail(String email) {
         this.email = email.toLowerCase();
     }

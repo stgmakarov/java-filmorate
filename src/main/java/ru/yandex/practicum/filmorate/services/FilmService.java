@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class FilmService {
     private final FilmStorage filmStorage;
 
-    public List<Integer> getTop(int topElements){
+    public List<Integer> getTop(int topElements) {
         return filmStorage.getListOfFilms().stream()
                 .sorted(Comparator.comparingInt((Film film) -> getLikesCount(film.getId())).reversed())
                 .limit(topElements)
@@ -27,15 +27,15 @@ public class FilmService {
                 .collect(Collectors.toList());
     }
 
-    public boolean like(int filmId, int userId){
-        return filmStorage.like(filmId,userId);
+    public boolean like(int filmId, int userId) {
+        return filmStorage.like(filmId, userId);
     }
 
-    public int getLikesCount(int filmId){
+    public int getLikesCount(int filmId) {
         return filmStorage.getFilmById(filmId).getLikedUsers().size();
     }
 
-    public boolean dislike(int filmId, int userId){
-        return filmStorage.dislike(filmId,userId);
+    public boolean dislike(int filmId, int userId) {
+        return filmStorage.dislike(filmId, userId);
     }
 }
