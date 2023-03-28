@@ -7,7 +7,6 @@ import ru.yandex.practicum.filmorate.exceptions.film.AlreadyLikedException;
 import ru.yandex.practicum.filmorate.exceptions.film.MissedLikeException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.services.FilmService;
-import ru.yandex.practicum.filmorate.services.GenreService;
 import ru.yandex.practicum.filmorate.storage.interfaces.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces.UserStorage;
 
@@ -51,14 +50,14 @@ public class FilmController {
     public void like(@Valid @PathVariable("id") int filmId, @Valid @PathVariable("userId") int userId) {
         filmStorage.getFilmById(filmId);//проверка на существование ИД
         userStorage.getUserById(userId);//проверка на существование ИД
-        if(!filmService.like(filmId, userId)) throw new AlreadyLikedException();
+        if (!filmService.like(filmId, userId)) throw new AlreadyLikedException();
     }
 
     @DeleteMapping("/{id}/like/{userId}")
     public void dislike(@Valid @PathVariable("id") int filmId, @Valid @PathVariable("userId") int userId) {
         filmStorage.getFilmById(filmId);//проверка на существование ИД
         userStorage.getUserById(userId);//проверка на существование ИД
-        if(!filmService.dislike(filmId, userId))throw new MissedLikeException();
+        if (!filmService.dislike(filmId, userId))throw new MissedLikeException();
     }
 
     @GetMapping("/popular")
