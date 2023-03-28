@@ -135,12 +135,12 @@ class FilmControllerTest {
 
     @Test
     void createFilmFailFilmDescriptionTooMachLength() {
-        Film film = new Film(0, "Test", "testdesc"
-                , LocalDate.of(1983, 1, 1)
-                , 180
-                , new HashSet<>()
-                , new Mpa(1, "")
-                , new HashSet<>()
+        Film film = new Film(0, "Test", "testdesc",
+                LocalDate.of(1983, 1, 1),
+                180,
+                new HashSet<>(),
+                new Mpa(1, ""),
+                new HashSet<>()
 
         );
         film.setDuration(100);
