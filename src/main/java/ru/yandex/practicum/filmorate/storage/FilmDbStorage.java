@@ -97,14 +97,14 @@ public class FilmDbStorage implements FilmStorage {
                 "f.\"rating_id\", r.\"name\" AS \"rating_desc\"\n" +
                 "FROM PUBLIC.\"Film\" AS f\n" +
                 "LEFT JOIN \"Rating\" AS r ON f.\"rating_id\" = r.\"id\";";
-        List<Film> films = jdbcTemplate.query(sqlRequest, (rs, rowNum) -> new Film(rs.getInt("id")
-                , rs.getString("name")
-                , rs.getString("description")
-                , rs.getDate("releaseDate").toLocalDate()
-                , rs.getInt("duration")
-                , getLikedUsers(rs.getInt("id"))
-                , new Mpa(rs.getInt("rating_id"), rs.getString("rating_desc"))
-                , getFilmGenres(rs.getInt("id"))
+        List<Film> films = jdbcTemplate.query(sqlRequest, (rs, rowNum) -> new Film(rs.getInt("id"),
+                rs.getString("name"),
+                rs.getString("description"),
+                rs.getDate("releaseDate").toLocalDate(),
+                rs.getInt("duration"),
+                getLikedUsers(rs.getInt("id")),
+                new Mpa(rs.getInt("rating_id"), rs.getString("rating_desc")),
+                getFilmGenres(rs.getInt("id"))
         ));
         films.forEach(film -> film.setLikedUsers(getLikedUsers(film.getId())));
         return genreService.updateGenreText(films);
@@ -130,14 +130,14 @@ public class FilmDbStorage implements FilmStorage {
 
         SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlQuery, new String[]{String.valueOf(filmId)});
         if (rs.next()) {
-            return genreService.updateGenreText(new Film(rs.getInt("id")
-                    , Objects.requireNonNull(rs.getString("name"))
-                    , rs.getString("description")
-                    , rs.getDate("releaseDate").toLocalDate()
-                    , rs.getInt("duration")
-                    , getLikedUsers(rs.getInt("id"))
-                    , new Mpa(rs.getInt("rating_id"), rs.getString("rating_desc"))
-                    , getFilmGenres(rs.getInt("id"))
+            return genreService.updateGenreText(new Film(rs.getInt("id"),
+                    Objects.requireNonNull(rs.getString("name")),
+                    rs.getString("description"),
+                    rs.getDate("releaseDate").toLocalDate(),
+                    rs.getInt("duration"),
+                    getLikedUsers(rs.getInt("id")),
+                    new Mpa(rs.getInt("rating_id"), rs.getString("rating_desc")),
+                    getFilmGenres(rs.getInt("id"))
             ));
         } else throw new FilmIdNotExists(filmId);
     }
@@ -165,14 +165,14 @@ public class FilmDbStorage implements FilmStorage {
         return genreService.updateGenreText(jdbcTemplate.query(
                 String.format(sqlQuery, inSql),
                 films.toArray(),
-                (rs, rowNum) -> new Film(rs.getInt("id")
-                        , rs.getString("name")
-                        , rs.getString("description")
-                        , rs.getDate("releaseDate").toLocalDate()
-                        , rs.getInt("duration")
-                        , getLikedUsers(rs.getInt("id"))
-                        , new Mpa(rs.getInt("rating_id"), rs.getString("rating_desc"))
-                        , getFilmGenres(rs.getInt("id"))
+                (rs, rowNum) -> new Film(rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getDate("releaseDate").toLocalDate(),
+                        rs.getInt("duration"),
+                        getLikedUsers(rs.getInt("id")),
+                        new Mpa(rs.getInt("rating_id"), rs.getString("rating_desc")),
+                        getFilmGenres(rs.getInt("id"))
                 )
         ));
     }

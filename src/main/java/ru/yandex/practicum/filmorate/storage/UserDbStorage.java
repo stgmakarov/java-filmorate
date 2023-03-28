@@ -140,13 +140,13 @@ public class UserDbStorage implements UserStorage {
 
         return jdbcTemplate.query(
                 sqlQuery,
-                (rs, rowNum) -> new User(rs.getInt("id")
-                        , rs.getString("email")
-                        , rs.getString("login")
-                        , rs.getString("name")
-                        , rs.getDate("birthday").toLocalDate()
-                        , getFriends(rs.getInt("id"), true)
-                        , getFriends(rs.getInt("id"), false)));
+                (rs, rowNum) -> new User(rs.getInt("id"),
+                        rs.getString("email"),
+                        rs.getString("login"),
+                        rs.getString("name"),
+                        rs.getDate("birthday").toLocalDate(),
+                        getFriends(rs.getInt("id"), true),
+                        getFriends(rs.getInt("id"), false)));
     }
 
     @Override
@@ -158,13 +158,13 @@ public class UserDbStorage implements UserStorage {
         return jdbcTemplate.query(
                 String.format(sqlQuery, inSql),
                 users.toArray(),
-                (rs, rowNum) -> new User(rs.getInt("id")
-                        , rs.getString("email")
-                        , rs.getString("login")
-                        , rs.getString("name")
-                        , rs.getDate("birthday").toLocalDate()
-                        , getFriends(rs.getInt("id"), true)
-                        , getFriends(rs.getInt("id"), false)));
+                (rs, rowNum) -> new User(rs.getInt("id"),
+                        rs.getString("email"),
+                        rs.getString("login"),
+                        rs.getString("name"),
+                        rs.getDate("birthday").toLocalDate(),
+                        getFriends(rs.getInt("id"), true),
+                        getFriends(rs.getInt("id"), false)));
     }
 
     @Override
