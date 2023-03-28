@@ -9,5 +9,6 @@ import java.util.List;
  */
 public interface MpaStorage {
     List<Mpa> getMpa();
+
     Mpa getMpa(int id);
 }

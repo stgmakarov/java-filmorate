@@ -10,7 +10,10 @@ import java.util.Set;
  */
 public interface GenreStorage {
     List<Genre> getGenre();
+
     Genre getGenre(int id);
+
     void updateFilmGenres(int filmId, Set<Integer> genres);
+
     String getGenreText(int id);
 }
