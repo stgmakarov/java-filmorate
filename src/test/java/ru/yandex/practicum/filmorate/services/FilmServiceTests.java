@@ -25,17 +25,17 @@ public class FilmServiceTests {
     public void initFilmService() {
         filmStorage = new InMemoryFilmStorage();
         filmService = new FilmService(filmStorage);
-        film = new Film(0, "Test","testdesc"
-                ,LocalDate.of(1983,1,1)
-                ,180
-                ,new HashSet<>()
-                ,new Mpa(1,"")
-                ,new HashSet<>()
+        film = new Film(0, "Test", "testdesc",
+                LocalDate.of(1983, 1, 1),
+                180,
+                new HashSet<>(),
+                new Mpa(1, ""),
+                new HashSet<>()
 
         );
         film.setDuration(120);
         film.setDescription("Alien film");
-        film.setReleaseDate(LocalDate.of(1979,1,1));
+        film.setReleaseDate(LocalDate.of(1979, 1, 1));
         film = filmStorage.create(film);
     }
 
@@ -57,17 +57,17 @@ public class FilmServiceTests {
     @Test
     public void topTenTest() {
         for (int filmId = 1; filmId <= 20; filmId++) {
-            film = new Film(0, "Test","testdesc"
-                    ,LocalDate.of(1983,1,1)
-                    ,180
-                    ,new HashSet<>()
-                    ,new Mpa(1,"")
-                    ,new HashSet<>()
+            film = new Film(0, "Test", "testdesc",
+                    LocalDate.of(1983, 1, 1),
+                    180,
+                    new HashSet<>(),
+                    new Mpa(1, ""),
+                    new HashSet<>()
 
             );
             film.setDuration(120);
             film.setDescription("Alien film");
-            film.setReleaseDate(LocalDate.of(1979,1,1));
+            film.setReleaseDate(LocalDate.of(1979, 1, 1));
             film = filmStorage.create(film);
             for (int userId = 1; userId <= filmId; userId++) {
                 assertTrue(filmService.like(filmId, userId));

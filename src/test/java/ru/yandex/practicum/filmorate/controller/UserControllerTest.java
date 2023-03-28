@@ -30,13 +30,13 @@ public class UserControllerTest {
 
     @Test
     void testUserCreationOk() {
-        User user = new User(0
-                ,"assd@hagel.com"
-                , "login"
-                , "test"
-                , LocalDate.of(1983,1,1)
-                , new HashSet<>()
-                , new HashSet<>()
+        User user = new User(0,
+                "assd@hagel.com",
+                "login",
+                "test",
+                LocalDate.of(1983, 1, 1),
+                new HashSet<>(),
+                new HashSet<>()
         );
         user.setName("Test");
         user.setEmail("test@test.com");
@@ -50,13 +50,13 @@ public class UserControllerTest {
 
     @Test
     void testUserUpdateOk() {
-        User user = new User(0
-                ,"assd@hagel.com"
-                , "login"
-                , "test"
-                , LocalDate.of(1983,1,1)
-                , new HashSet<>()
-                , new HashSet<>()
+        User user = new User(0,
+                "assd@hagel.com",
+                "login",
+                "test",
+                LocalDate.of(1983, 1, 1),
+                new HashSet<>(),
+                new HashSet<>()
         );
         user.setName("Test");
         user.setEmail("test@test.com");
@@ -73,13 +73,13 @@ public class UserControllerTest {
 
     @Test
     void testUserUpdateFail() {
-        User user = new User(0
-                ,"assd@hagel.com"
-                , "login"
-                , "test"
-                , LocalDate.of(1983,1,1)
-                , new HashSet<>()
-                , new HashSet<>()
+        User user = new User(0,
+                "assd@hagel.com",
+                "login",
+                "test",
+                LocalDate.of(1983, 1, 1),
+                new HashSet<>(),
+                new HashSet<>()
         );
         user.setName("Test");
         user.setEmail("test@test.com");
@@ -95,13 +95,13 @@ public class UserControllerTest {
 
     @Test
     void testUserCreationFailEmailWrong() {
-        User user = new User(0
-                ,"assd@hagel.com"
-                , "login"
-                , "test"
-                , LocalDate.of(1983,1,1)
-                , new HashSet<>()
-                , new HashSet<>()
+        User user = new User(0,
+                "assd@hagel.com",
+                "login",
+                "test",
+                LocalDate.of(1983, 1, 1),
+                new HashSet<>(),
+                new HashSet<>()
         );
         user.setName("Test");
         user.setEmail("test@test.c o m");
@@ -111,13 +111,13 @@ public class UserControllerTest {
 
     @Test
     void testUserCreationFailLoginWrong1() {
-        User user = new User(0
-                ,"assd"
-                , "l"
-                , "test"
-                , LocalDate.of(1983,1,1)
-                , new HashSet<>()
-                , new HashSet<>()
+        User user = new User(0,
+                "assd",
+                "l",
+                "test",
+                LocalDate.of(1983, 1, 1),
+                new HashSet<>(),
+                new HashSet<>()
         );
         user.setBirthday(LocalDate.of(2000, 1, 1));
         assertThrowsExactly(EmailWrong.class, () -> userController.create(user));
@@ -125,13 +125,13 @@ public class UserControllerTest {
 
     @Test
     void testUserCreationFailLoginWrong2() {
-        User user = new User(0
-                ,"fgf@gel.com"
-                , ""
-                , "test"
-                , LocalDate.of(1983,1,1)
-                , new HashSet<>()
-                , new HashSet<>()
+        User user = new User(0,
+                "fgf@gel.com",
+                "",
+                "test",
+                LocalDate.of(1983, 1, 1),
+                new HashSet<>(),
+                new HashSet<>()
         );
 
         user.setBirthday(LocalDate.of(2000, 1, 1));
@@ -141,13 +141,13 @@ public class UserControllerTest {
 
     @Test
     void testUserCreationFailBirthday() {
-        User user = new User(0
-                ,"assd@hagel.com"
-                , "login"
-                , "test"
-                , LocalDate.of(1983,1,1)
-                , new HashSet<>()
-                , new HashSet<>()
+        User user = new User(0,
+                "assd@hagel.com",
+                "login",
+                "test",
+                LocalDate.of(1983, 1, 1),
+                new HashSet<>(),
+                new HashSet<>()
         );
         user.setName("Test");
         user.setEmail("test@test.com");
@@ -157,26 +157,26 @@ public class UserControllerTest {
 
     @Test
     void testUserCreationFailEmailAlreadyRegistered() {
-        User user = new User(0
-                ,"assd@hagel.com"
-                , "login"
-                , "test"
-                , LocalDate.of(1983,1,1)
-                , new HashSet<>()
-                , new HashSet<>()
+        User user = new User(0,
+                "assd@hagel.com",
+                "login",
+                "test",
+                LocalDate.of(1983, 1, 1),
+                new HashSet<>(),
+                new HashSet<>()
         );
         user.setName("Test");
         user.setEmail("test@test.com");
         user.setBirthday(LocalDate.of(2000, 1, 1));
         userController.create(user);
 
-        User user2 = new User(0
-                ,"assd1@hagel.com"
-                , "login1"
-                , "test"
-                , LocalDate.of(1983,1,1)
-                , new HashSet<>()
-                , new HashSet<>()
+        User user2 = new User(0,
+                "assd1@hagel.com",
+                "login1",
+                "test",
+                LocalDate.of(1983, 1, 1),
+                new HashSet<>(),
+                new HashSet<>()
         );
         user2.setName("Test2");
         user2.setEmail("test@test.com");
@@ -187,26 +187,26 @@ public class UserControllerTest {
 
     @Test
     void testUserCreationFailLoginAlreadyRegistered() {
-        User user = new User(0
-                ,"assd@hagel.com"
-                , "login"
-                , "test"
-                , LocalDate.of(1983,1,1)
-                , new HashSet<>()
-                , new HashSet<>()
+        User user = new User(0,
+                "assd@hagel.com",
+                "login",
+                "test",
+                LocalDate.of(1983, 1, 1),
+                new HashSet<>(),
+                new HashSet<>()
         );
         user.setName("Test");
         user.setEmail("test@test.com");
         user.setBirthday(LocalDate.of(2000, 1, 1));
         userController.create(user);
 
-        User user2 = new User(0
-                ,"assd@hagel.com"
-                , "login"
-                , "test"
-                , LocalDate.of(1983,1,1)
-                , new HashSet<>()
-                , new HashSet<>()
+        User user2 = new User(0,
+                "assd@hagel.com",
+                "login",
+                "test",
+                LocalDate.of(1983, 1, 1),
+                new HashSet<>(),
+                new HashSet<>()
         );
         user2.setName("Test2");
         user2.setEmail("test2@test.com");
@@ -217,13 +217,13 @@ public class UserControllerTest {
 
     @Test
     void testUserUpdateFailIdNotExists() {
-        User user = new User(0
-                ,"assd@hagel.com"
-                , "login"
-                , "test"
-                , LocalDate.of(1983,1,1)
-                , new HashSet<>()
-                , new HashSet<>()
+        User user = new User(0,
+                "assd@hagel.com",
+                "login",
+                "test",
+                LocalDate.of(1983, 1, 1),
+                new HashSet<>(),
+                new HashSet<>()
         );
         user.setName("Test");
         user.setEmail("test@test.com");

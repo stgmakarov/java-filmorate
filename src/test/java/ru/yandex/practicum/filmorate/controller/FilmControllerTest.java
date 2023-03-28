@@ -34,12 +34,12 @@ class FilmControllerTest {
 
     @Test
     void createFilmOk() {
-        Film film = new Film(0, "Test","testdesc"
-                ,LocalDate.of(1983,1,1)
-                ,180
-                ,new HashSet<>()
-                ,new Mpa(1,"")
-                ,new HashSet<>()
+        Film film = new Film(0, "Test", "testdesc",
+                LocalDate.of(1983, 1, 1),
+                180,
+                new HashSet<>(),
+                new Mpa(1, ""),
+                new HashSet<>()
 
         );
         film.setDuration(100);
@@ -55,12 +55,12 @@ class FilmControllerTest {
 
     @Test
     void updateFilmOk() {
-        Film film = new Film(0, "Test","testdesc"
-                ,LocalDate.of(1983,1,1)
-                ,180
-                ,new HashSet<>()
-                ,new Mpa(1,"")
-                ,new HashSet<>()
+        Film film = new Film(0, "Test", "testdesc",
+                LocalDate.of(1983, 1, 1),
+                180,
+                new HashSet<>(),
+                new Mpa(1, ""),
+                new HashSet<>()
 
         );
         film.setDuration(100);
@@ -78,12 +78,12 @@ class FilmControllerTest {
 
     @Test
     void updateFilmFail() {
-        Film film = new Film(0, "Test","testdesc"
-                ,LocalDate.of(1983,1,1)
-                ,180
-                ,new HashSet<>()
-                ,new Mpa(1,"")
-                ,new HashSet<>()
+        Film film = new Film(0, "Test", "testdesc",
+                LocalDate.of(1983, 1, 1),
+                180,
+                new HashSet<>(),
+                new Mpa(1, ""),
+                new HashSet<>()
 
         );
         film.setDuration(100);
@@ -98,12 +98,12 @@ class FilmControllerTest {
 
     @Test
     void updateFilmFail2() {
-        Film film = new Film(0, "Test","testdesc"
-                ,LocalDate.of(1983,1,1)
-                ,180
-                ,new HashSet<>()
-                ,new Mpa(1,"")
-                ,new HashSet<>()
+        Film film = new Film(0, "Test", "testdesc",
+                LocalDate.of(1983, 1, 1),
+                180,
+                new HashSet<>(),
+                new Mpa(1, ""),
+                new HashSet<>()
 
         );
         film.setDuration(100);
@@ -118,12 +118,12 @@ class FilmControllerTest {
 
     @Test
     void createFilmFailFilmDateIncorrect() {
-        Film film = new Film(0, "Test","testdesc"
-                ,LocalDate.of(1983,1,1)
-                ,180
-                ,new HashSet<>()
-                ,new Mpa(1,"")
-                ,new HashSet<>()
+        Film film = new Film(0, "Test", "testdesc",
+                LocalDate.of(1983, 1, 1),
+                180,
+                new HashSet<>(),
+                new Mpa(1, ""),
+                new HashSet<>()
 
         );
         film.setDuration(100);
@@ -135,12 +135,12 @@ class FilmControllerTest {
 
     @Test
     void createFilmFailFilmDescriptionTooMachLength() {
-        Film film = new Film(0, "Test","testdesc"
-                ,LocalDate.of(1983,1,1)
-                ,180
-                ,new HashSet<>()
-                ,new Mpa(1,"")
-                ,new HashSet<>()
+        Film film = new Film(0, "Test", "testdesc"
+                , LocalDate.of(1983, 1, 1)
+                , 180
+                , new HashSet<>()
+                , new Mpa(1, "")
+                , new HashSet<>()
 
         );
         film.setDuration(100);
@@ -159,12 +159,12 @@ class FilmControllerTest {
 
     @Test
     void createFilmFailFilmDurationIsIncorrect() {
-        Film film = new Film(0, "Test","testdesc"
-                ,LocalDate.of(1983,1,1)
-                ,180
-                ,new HashSet<>()
-                ,new Mpa(1,"")
-                ,new HashSet<>()
+        Film film = new Film(0, "Test", "testdesc",
+                LocalDate.of(1983, 1, 1),
+                180,
+                new HashSet<>(),
+                new Mpa(1, ""),
+                new HashSet<>()
 
         );
         film.setDuration(-5);

@@ -19,64 +19,65 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UserServiceTests {
     private UserService userService;
     private UserStorage userStorage;
+
     @BeforeEach
-    public void initUserService(){
+    public void initUserService() {
         userStorage = new InMemoryUserStorage();
         userService = new UserService(userStorage);
-        for(int i =1;i<=5;i++){
-            User user = new User(0
-                    ,"assd@hagel.com"
-                    , "login" + i
-                    , "test"
-                    , LocalDate.of(1983,1,1)
-                    , new HashSet<>()
-                    , new HashSet<>()
+        for (int i = 1; i <= 5; i++) {
+            User user = new User(0,
+                    "assd@hagel.com",
+                    "login" + i,
+                    "test",
+                    LocalDate.of(1983, 1, 1),
+                    new HashSet<>(),
+                    new HashSet<>()
             );
-            user.setEmail("email"+i+"@gmail.com");
+            user.setEmail("email" + i + "@gmail.com");
             user.setName("My Name");
-            user.setBirthday(LocalDate.of(1983,1,1));
+            user.setBirthday(LocalDate.of(1983, 1, 1));
             userStorage.create(user);
         }
     }
 
     @Test
-    public void testAddFriendIAm(){
-        assertThrowsExactly(FriendAddError.class,  () -> userService.makeFriendship(1,1));
+    public void testAddFriendIAm() {
+        assertThrowsExactly(FriendAddError.class, () -> userService.makeFriendship(1, 1));
     }
 
     @Test
-    public void testAddFriend(){
-        assertDoesNotThrow(()->userService.makeFriendship(1,2));
-        assertDoesNotThrow(()->userService.makeFriendship(2,1));
-        assertDoesNotThrow(()->userService.makeFriendship(1,3));
-        assertTrue(userService.checkFriendship(1,2));
-        assertTrue(userService.checkFriendship(2,1));
-        assertFalse(userService.checkFriendship(3,1));
+    public void testAddFriend() {
+        assertDoesNotThrow(() -> userService.makeFriendship(1, 2));
+        assertDoesNotThrow(() -> userService.makeFriendship(2, 1));
+        assertDoesNotThrow(() -> userService.makeFriendship(1, 3));
+        assertTrue(userService.checkFriendship(1, 2));
+        assertTrue(userService.checkFriendship(2, 1));
+        assertFalse(userService.checkFriendship(3, 1));
 
     }
 
     @Test
-    public void testRemoveFriend(){
-        assertDoesNotThrow(()->userService.makeFriendship(1,2));
-        assertDoesNotThrow(()->userService.makeFriendship(2,1));
-        assertDoesNotThrow(()->userService.makeFriendship(1,3));
-        assertDoesNotThrow(()->userService.makeFriendship(3,1));
-        assertTrue(userService.checkFriendship(1,2));
-        assertTrue(userService.checkFriendship(2,1));
-        assertDoesNotThrow(() -> userService.removeFriendship(2,1));
-        assertFalse(userService.checkFriendship(1,2));
-        assertFalse(userService.checkFriendship(2,1));
+    public void testRemoveFriend() {
+        assertDoesNotThrow(() -> userService.makeFriendship(1, 2));
+        assertDoesNotThrow(() -> userService.makeFriendship(2, 1));
+        assertDoesNotThrow(() -> userService.makeFriendship(1, 3));
+        assertDoesNotThrow(() -> userService.makeFriendship(3, 1));
+        assertTrue(userService.checkFriendship(1, 2));
+        assertTrue(userService.checkFriendship(2, 1));
+        assertDoesNotThrow(() -> userService.removeFriendship(2, 1));
+        assertFalse(userService.checkFriendship(1, 2));
+        assertFalse(userService.checkFriendship(2, 1));
     }
 
     @Test
-    public void getOursFriendListTest(){
-        userService.makeFriendship(1,2);
-        userService.makeFriendship(1,3);
-        userService.makeFriendship(4,2);
-        userService.makeFriendship(4,5);
-        userService.makeFriendship(4,3);
-        assertTrue(userService.getOursFriendList(1,4).get(0)==2
-                && userService.getOursFriendList(1,4).get(1)==3);
+    public void getOursFriendListTest() {
+        userService.makeFriendship(1, 2);
+        userService.makeFriendship(1, 3);
+        userService.makeFriendship(4, 2);
+        userService.makeFriendship(4, 5);
+        userService.makeFriendship(4, 3);
+        assertTrue(userService.getOursFriendList(1, 4).get(0) == 2
+                && userService.getOursFriendList(1, 4).get(1) == 3);
     }
 
 }
