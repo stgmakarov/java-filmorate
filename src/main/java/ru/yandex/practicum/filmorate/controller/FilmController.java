@@ -33,7 +33,7 @@ public class FilmController {
     }
 
     @GetMapping("/{id}")
-    public Film getFilm( @PathVariable("id") int id) {
+    public Film getFilm(@PathVariable("id") int id) {
         return filmService.getFilmById(id);
     }
 
@@ -43,21 +43,21 @@ public class FilmController {
     }
 
     @PutMapping("/{id}/like/{userId}")
-    public void like( @PathVariable("id") int filmId,  @PathVariable("userId") int userId) {
+    public void like(@PathVariable("id") int filmId, @PathVariable("userId") int userId) {
         filmService.getFilmById(filmId);//проверка на существование ИД
         userStorage.getUserById(userId);//проверка на существование ИД
         if (!filmService.like(filmId, userId)) throw new AlreadyLikedException();
     }
 
     @DeleteMapping("/{id}/like/{userId}")
-    public void dislike( @PathVariable("id") int filmId,  @PathVariable("userId") int userId) {
+    public void dislike(@PathVariable("id") int filmId, @PathVariable("userId") int userId) {
         filmService.getFilmById(filmId);//проверка на существование ИД
         userStorage.getUserById(userId);//проверка на существование ИД
         if (!filmService.dislike(filmId, userId)) throw new MissedLikeException();
     }
 
     @GetMapping("/popular")
-    public List<Film> getTopFilms( @RequestParam(defaultValue = "10") int count) {
+    public List<Film> getTopFilms(@RequestParam(defaultValue = "10") int count) {
         List<Integer> topFilmsId = filmService.getTop(count);
         return filmService.getListOfFilms(topFilmsId);
     }

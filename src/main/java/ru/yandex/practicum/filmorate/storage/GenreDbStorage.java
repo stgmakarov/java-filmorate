@@ -57,7 +57,7 @@ public class GenreDbStorage implements GenreStorage {
 
     @Override
     public void updateFilmGenres(int filmId, Set<Integer> genres) {
-        if(jdbcTemplate==null)return;//для прохождения теста, когда JDBC нет
+        if (jdbcTemplate == null) return;//для прохождения теста, когда JDBC нет
         String sqlQueryDel = "DELETE FROM FILMGENRE " +
                 "WHERE film_id=?;";
 

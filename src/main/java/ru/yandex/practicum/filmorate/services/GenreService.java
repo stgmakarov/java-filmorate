@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.storage.interfaces.GenreStorage;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +27,7 @@ public class GenreService {
         return filmList;
     }
 
-    public void updateFilmGenres(Film film){
+    public void updateFilmGenres(Film film) {
         genreStorage.updateFilmGenres(film.getId(), film.getGenres()
                 .stream()
                 .map(Genre::getId)

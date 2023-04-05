@@ -18,27 +18,27 @@ public class FilmService {
     private final FilmStorage filmStorage;
     private final GenreService genreService;
 
-    public Film create(Film film){
+    public Film create(Film film) {
         film = filmStorage.create(film);
         genreService.updateFilmGenres(film);
         return genreService.updateGenreText(film);
     }
 
-    public Film update(Film film){
+    public Film update(Film film) {
         film = filmStorage.update(film);
         genreService.updateFilmGenres(film);
         return genreService.updateGenreText(film);
     }
 
-    public List<Film> getListOfFilms(){
+    public List<Film> getListOfFilms() {
         return genreService.updateGenreText(filmStorage.getListOfFilms());
     }
 
-    public Film getFilmById(int filmId){
+    public Film getFilmById(int filmId) {
         return genreService.updateGenreText(filmStorage.getFilmById(filmId));
     }
 
-    public List<Film> getListOfFilms(List<Integer> films){
+    public List<Film> getListOfFilms(List<Integer> films) {
         return genreService.updateGenreText(filmStorage.getListOfFilms(films));
     }
 
