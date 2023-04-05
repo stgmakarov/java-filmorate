@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.services;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.interfaces.FilmStorage;
@@ -14,10 +13,34 @@ import java.util.stream.Collectors;
  * @author Stanislav Makarov
  */
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class FilmService {
     private final FilmStorage filmStorage;
+    private final GenreService genreService;
+
+    public Film create(Film film){
+        film = filmStorage.create(film);
+        genreService.updateFilmGenres(film);
+        return genreService.updateGenreText(film);
+    }
+
+    public Film update(Film film){
+        film = filmStorage.update(film);
+        genreService.updateFilmGenres(film);
+        return genreService.updateGenreText(film);
+    }
+
+    public List<Film> getListOfFilms(){
+        return genreService.updateGenreText(filmStorage.getListOfFilms());
+    }
+
+    public Film getFilmById(int filmId){
+        return genreService.updateGenreText(filmStorage.getFilmById(filmId));
+    }
+
+    public List<Film> getListOfFilms(List<Integer> films){
+        return genreService.updateGenreText(filmStorage.getListOfFilms(films));
+    }
 
     public List<Integer> getTop(int topElements) {
         return filmStorage.getListOfFilms().stream()

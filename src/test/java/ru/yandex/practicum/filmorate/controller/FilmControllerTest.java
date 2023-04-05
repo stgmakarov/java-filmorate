@@ -9,6 +9,8 @@ import ru.yandex.practicum.filmorate.exceptions.film.FilmIdNotExists;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.services.FilmService;
+import ru.yandex.practicum.filmorate.services.GenreService;
+import ru.yandex.practicum.filmorate.storage.GenreDbStorage;
 import ru.yandex.practicum.filmorate.storage.InMemoryFilmStorage;
 import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces.FilmStorage;
@@ -29,7 +31,7 @@ class FilmControllerTest {
     @BeforeEach
     void initFilmController() {
         FilmStorage filmStorage = new InMemoryFilmStorage();
-        filmController = new FilmController(filmStorage, new FilmService(filmStorage), new InMemoryUserStorage());
+        filmController = new FilmController(new FilmService(filmStorage, new GenreService(new GenreDbStorage())), new InMemoryUserStorage());
     }
 
     @Test
@@ -144,14 +146,7 @@ class FilmControllerTest {
 
         );
         film.setDuration(100);
-        film.setDescription("test descriptionassssssssssssssssssssssssssssssssssss" +
-                "asssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" +
-                "sdfffffffffffffffffgsdgergerg" +
-                "ergerrrrrreeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" +
-                "dgrggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg" +
-                "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" +
-                "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr" +
-                "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg");
+        film.setDescription("A".repeat(250));
         film.setReleaseDate(LocalDate.of(2000, 1, 1));
 
         assertThrowsExactly(FilmDescriptionTooMachLength.class, () -> filmController.create(film));

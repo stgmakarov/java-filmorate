@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.services;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exceptions.user.FriendAddError;
 import ru.yandex.practicum.filmorate.exceptions.user.FriendRemoveError;
@@ -15,7 +14,6 @@ import java.util.Set;
  * @author Stanislav Makarov
  */
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class UserService {
     private final UserStorage userStorage;

@@ -16,7 +16,7 @@ public interface FilmStorage {
     LocalDate FIRST_FILM_DATE = LocalDate.of(1895, 12, 28);
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    Film create(Film film);
+    Film create(ru.yandex.practicum.filmorate.model.Film film);
 
     Film update(Film film);
 

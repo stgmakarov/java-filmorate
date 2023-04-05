@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Mpa;
+import ru.yandex.practicum.filmorate.storage.GenreDbStorage;
 import ru.yandex.practicum.filmorate.storage.InMemoryFilmStorage;
 import ru.yandex.practicum.filmorate.storage.interfaces.FilmStorage;
 
@@ -24,7 +25,7 @@ public class FilmServiceTests {
     @BeforeEach
     public void initFilmService() {
         filmStorage = new InMemoryFilmStorage();
-        filmService = new FilmService(filmStorage);
+        filmService = new FilmService(filmStorage, new GenreService(new GenreDbStorage()));
         film = new Film(0, "Test", "testdesc",
                 LocalDate.of(1983, 1, 1),
                 180,

@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.storage;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.ArgumentPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,7 +21,6 @@ import java.util.*;
  * @author Stanislav Makarov
  */
 @Component
-@Slf4j
 @Primary
 @RequiredArgsConstructor
 public class UserDbStorage implements UserStorage {
@@ -36,7 +34,7 @@ public class UserDbStorage implements UserStorage {
             user.setName(user.getLogin());
         }
 
-        String sqlQuery = "insert into \"User\"(\"email\", \"login\", \"name\", \"birthday\") " +
+        String sqlQuery = "insert into USERS (email, login, name, birthday) " +
                 "values (?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
@@ -55,9 +53,9 @@ public class UserDbStorage implements UserStorage {
     @Override
     public User update(User user) {
         checker(user, true);
-        String sqlQuery = "UPDATE \"User\"\n" +
-                "SET \"email\"=?, \"login\"=?, \"name\"=?, \"birthday\"=?\n" +
-                "WHERE \"id\"=?;";
+        String sqlQuery = "UPDATE USERS " +
+                "SET email=?, login=?, name=?, birthday=? " +
+                "WHERE id=?;";
 
         if (user.getName() == null || user.getName().isEmpty()) {
             user.setName(user.getLogin());
@@ -101,12 +99,10 @@ public class UserDbStorage implements UserStorage {
     private boolean checkEmailExists(String email, OptionalInt currId) {
         SqlRowSet sqlRowSet;
         if (currId.isEmpty()) {
-            String sqlQuery = "select count(*) from \"User\"\n" +
-                    "where \"email\"=?;";
+            String sqlQuery = "select count(*) from USERS where email = ?";
             sqlRowSet = jdbcTemplate.queryForRowSet(sqlQuery, email);
         } else {
-            String sqlQuery = "select count(*) from \"User\"\n" +
-                    "where \"email\"=? and \"id\" !=?;";
+            String sqlQuery = "select count(*) from USERS where email = ? and id !=?;";
             sqlRowSet = jdbcTemplate.queryForRowSet(sqlQuery, email, currId.getAsInt());
         }
         int cnt = 0;
@@ -119,12 +115,10 @@ public class UserDbStorage implements UserStorage {
     private boolean checkLoginExists(String login, OptionalInt currId) {
         SqlRowSet sqlRowSet;
         if (currId.isEmpty()) {
-            String sqlQuery = "select count(*) from \"User\"\n" +
-                    "where \"login\"=?;";
+            String sqlQuery = "select count(*) from USERS where login=?;";
             sqlRowSet = jdbcTemplate.queryForRowSet(sqlQuery, login);
         } else {
-            String sqlQuery = "select count(*) from \"User\"\n" +
-                    "where \"login\"=? and \"id\" !=?;";
+            String sqlQuery = "select count(*) from USERS where login=? and id !=?;";
             sqlRowSet = jdbcTemplate.queryForRowSet(sqlQuery, login, currId.getAsInt());
         }
         int cnt = 0;
@@ -136,7 +130,7 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public List<User> getListOfUsers() {
-        String sqlQuery = "select * from \"User\";";
+        String sqlQuery = "select * from USERS";
 
         return jdbcTemplate.query(
                 sqlQuery,
@@ -151,7 +145,7 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public List<User> getListOfUsers(List<Integer> users) {
-        String sqlQuery = "SELECT * FROM \"User\" WHERE \"id\" IN (%s)";
+        String sqlQuery = "SELECT * FROM USERS WHERE id IN (%s)";
 
         String inSql = String.join(",", Collections.nCopies(users.size(), "?"));
 
@@ -179,8 +173,8 @@ public class UserDbStorage implements UserStorage {
     public boolean addFriend(int userId, int friendId, boolean confirmed) {
         if (getFriends(userId).contains(friendId)) return false;
 
-        String sqlQuery = "INSERT INTO \"Friends\"\n" +
-                "(\"user_id\", \"friend_id\", \"confirmed\")\n" +
+        String sqlQuery = "INSERT INTO FRIENDS " +
+                "(user_id, friend_id, confirmed) " +
                 "VALUES(?, ?, ?);";
 
         jdbcTemplate.update(con -> {
@@ -198,8 +192,7 @@ public class UserDbStorage implements UserStorage {
     public boolean removeFriend(int userId, int friendId) {
         if (!getFriends(userId).contains(friendId)) return false;
 
-        String sqlQuery = "DELETE FROM \"Friends\"\n" +
-                "WHERE \"user_id\"=? AND \"friend_id\"=?;";
+        String sqlQuery = "DELETE FROM FRIENDS WHERE user_id=? AND friend_id=?;";
 
         jdbcTemplate.update(con -> {
             PreparedStatement statement = con.prepareStatement(sqlQuery);
@@ -214,9 +207,7 @@ public class UserDbStorage implements UserStorage {
     @Override
     public boolean confirmFriend(int userId, int friendId) {
         if (getFriends(userId, false).contains(friendId)) {
-            String sqlRequest = "UPDATE \"Friends\"\n" +
-                    "SET \"confirmed\"=true\n" +
-                    "WHERE \"user_id\"=? AND \"friend_id\"=?;\n";
+            String sqlRequest = "UPDATE FRIENDS SET confirmed=true WHERE user_id=? AND friend_id=?;";
             jdbcTemplate.update(con -> {
                 PreparedStatement statement = con.prepareStatement(sqlRequest);
                 statement.setInt(1, userId);
@@ -236,11 +227,10 @@ public class UserDbStorage implements UserStorage {
     public Set<Integer> getFriends(int userId, Boolean confirmed) {
         String sqlQuery;
         if (confirmed != null) {
-            sqlQuery = String.format("select \"friend_id\" from \"Friends\"\n" +
-                    "where \"user_id\"=? and \"confirmed\" = %b;", confirmed);
+            sqlQuery = String.format("select friend_id from FRIENDS where user_id=? and confirmed = %b;",
+                    confirmed);
         } else {
-            sqlQuery = "select \"friend_id\" from \"Friends\"\n" +
-                    "where \"user_id\"=?;";
+            sqlQuery = "select friend_id from FRIENDS where user_id=?;";
         }
 
         List<Integer> friends = jdbcTemplate.query(sqlQuery,
