@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @Slf4j
 public class FilmDescriptionTooMachLength extends ResponseStatusException {
-    public FilmDescriptionTooMachLength(int maxDeskLen){
+    public FilmDescriptionTooMachLength(int maxDeskLen) {
         super(HttpStatus.BAD_REQUEST, String.format("Описание фильма не более %d символов", maxDeskLen));
     }
 }

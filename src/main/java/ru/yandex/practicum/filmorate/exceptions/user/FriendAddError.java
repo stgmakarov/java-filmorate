@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @Slf4j
 public class FriendAddError extends ResponseStatusException {
-    public FriendAddError(String s){
-        super(HttpStatus.BAD_REQUEST,String.format("Ошибка добавления в друзья: %s", s));
+    public FriendAddError(String s) {
+        super(HttpStatus.BAD_REQUEST, String.format("Ошибка добавления в друзья: %s", s));
     }
 }

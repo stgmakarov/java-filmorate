@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @Slf4j
 public class FilmDurationIsIncorrect extends ResponseStatusException {
-    public FilmDurationIsIncorrect(){
+    public FilmDurationIsIncorrect() {
         super(HttpStatus.BAD_REQUEST, "Продолжительность фильма должна быть положительной");
     }
 }

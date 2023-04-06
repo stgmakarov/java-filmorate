@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @Slf4j
 public class EmptyFilmNameException extends ResponseStatusException {
-    public EmptyFilmNameException(){
+    public EmptyFilmNameException() {
         super(HttpStatus.BAD_REQUEST, "Имя фильма не может быть пустым");
     }
 }

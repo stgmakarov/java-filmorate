@@ -1,8 +1,10 @@
-HELP.md
+../___java-filmorate___/HELP.md
 target/
-!.mvn/wrapper/maven-wrapper.jar
+#!.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+.mvn/
+db/*.db
 
 ### STS ###
 .apt_generated
@@ -41,3 +43,9 @@ build/
 ### VS Code ###
 .vscode/
 /logs/
+
+*.DS_Store
+*.idea
+*.db
+*out/
+*target/

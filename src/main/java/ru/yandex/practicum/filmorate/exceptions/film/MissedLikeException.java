@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @Slf4j
 public class MissedLikeException extends ResponseStatusException {
-    public MissedLikeException(){
+    public MissedLikeException() {
         super(HttpStatus.BAD_REQUEST, "Ошибка, лайк не был поставлен");
     }
 }

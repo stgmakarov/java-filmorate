@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @Slf4j
 public class EmailAlreadyRegistered extends ResponseStatusException {
-    public EmailAlreadyRegistered(String email){
-        super(HttpStatus.BAD_REQUEST,String.format("EMail %s уже зарегистрирован", email));
+    public EmailAlreadyRegistered(String email) {
+        super(HttpStatus.BAD_REQUEST, String.format("EMail %s уже зарегистрирован", email));
     }
 }

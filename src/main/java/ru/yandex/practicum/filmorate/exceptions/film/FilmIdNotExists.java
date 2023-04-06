@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @Slf4j
 public class FilmIdNotExists extends ResponseStatusException {
-    public FilmIdNotExists(int id){
+    public FilmIdNotExists(int id) {
         super(HttpStatus.NOT_FOUND, String.format("Фильма с ID %d не существует", id));
     }
 }

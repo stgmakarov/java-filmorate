@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @Slf4j
 public class FriendRemoveError extends ResponseStatusException {
-    public FriendRemoveError(){
-        super(HttpStatus.NOT_FOUND,"Ошибка удаления друга: друг с таким ИД не найден в перечне друзей");
+    public FriendRemoveError() {
+        super(HttpStatus.NOT_FOUND, "Ошибка удаления друга: друг с таким ИД не найден в перечне друзей");
     }
 }
